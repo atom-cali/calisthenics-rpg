@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calisthenics RPG">
+<meta name="theme-color" content="#1E3A8A">
+<title>Tommy · Calisthenics RPG</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --blue:#1E3A8A;--blue-mid:#1E40AF;--blue-lt:#DBEAFE;
+  --amber:#F59E0B;--amber-dk:#B45309;
+  --green:#10B981;--green-lt:#D1FAE5;--green-dk:#065F46;
+  --red:#E24B4A;--purple:#7F77DD;--teal:#1D9E75;--orange:#EF9F27;
+  --bg:#F5F5F3;--surface:#fff;--border:rgba(0,0,0,.08);
+  --t1:#111827;--t2:#6B7280;--t3:#9CA3AF;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0F172A;--surface:#1E293B;--border:rgba(255,255,255,.08);
+  --t1:#F1F5F9;--t2:#94A3B8;--t3:#64748B;
+}}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t1);overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.hdr{background:var(--blue);padding:max(48px,calc(env(safe-area-inset-top)+12px)) 16px 14px;flex-shrink:0}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.hdr-lbl{font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:3px}
+.hdr-lvl{font-size:20px;font-weight:600;color:#fff}
+.hdr-lvl span{font-size:14px;font-weight:400;color:rgba(255,255,255,.65)}
+.xp-badge{background:rgba(255,255,255,.12);border-radius:10px;padding:6px 12px;text-align:center;min-width:72px}
+.xp-badge-num{font-size:16px;font-weight:600;color:#FCD34D}
+.xp-badge-lbl{font-size:9px;color:rgba(255,255,255,.45)}
+.xp-bar-row{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.45);margin-bottom:4px}
+.xp-bg{background:rgba(255,255,255,.15);border-radius:99px;height:6px;overflow:hidden}
+.xp-fill{background:#FCD34D;height:100%;border-radius:99px;transition:width .6s ease}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 8px}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.bnav{background:var(--surface);border-top:.5px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);flex-shrink:0}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px 11px;border:none;background:transparent;cursor:pointer;color:var(--t3);font-size:10px;gap:3px;min-height:56px}
+.nbtn.active{color:var(--blue)}
+.nbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.card{background:var(--surface);border-radius:14px;border:.5px solid var(--border);margin-bottom:10px;overflow:hidden}
+.cp{padding:14px}
+.sec{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;margin-bottom:10px;margin-top:4px}
+.srow{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.sico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.smeta{flex:1}.sname{font-size:14px;font-weight:500;color:var(--t1)}.sdesc{font-size:11px;color:var(--t3)}
+.sval{font-size:20px;font-weight:600}
+.bbar{background:var(--bg);border-radius:99px;height:5px;overflow:hidden}
+.bfill{height:100%;border-radius:99px;transition:width .6s ease}
+.qcard{background:var(--surface);border:.5px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden}
+.qcard.done{border-color:#86EFAC;background:#F0FDF4}
+@media(prefers-color-scheme:dark){.qcard.done{background:#052E16;border-color:#166534}}
+.qi{padding:14px}
+.qtop{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.qcat{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
+.qtitle{flex:1;font-size:15px;font-weight:600;color:var(--t1)}
+.qxp{font-size:13px;font-weight:600;color:var(--amber-dk)}
+.qdesc{font-size:13px;color:var(--t2);line-height:1.55;margin-bottom:11px}
+.qboosts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.bpill{font-size:11px;font-weight:500;padding:3px 9px;border-radius:99px}
+.qbtn{width:100%;padding:13px 0;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:transform .1s,opacity .1s}
+.qbtn:active{transform:scale(.98);opacity:.9}
+.qbtn.todo{background:var(--blue);color:#fff}
+.qbtn.done-btn{background:#D1FAE5;color:#065F46;cursor:default}
+.qfeedback{display:flex;gap:6px}
+.qfbtn{flex:1;padding:11px 2px;border:none;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;transition:transform .1s}
+.qfbtn:active{transform:scale(.96)}
+.qfb-easy{background:#D1FAE5;color:#065F46}
+.qfb-mid{background:#DBEAFE;color:#1E40AF}
+.qfb-hard{background:#FEE2E2;color:#7F1D1D}
+.gcard{background:linear-gradient(0deg,#FFFBEB,#FFFBEB);border:1.5px solid #FCD34D;border-radius:16px;margin-bottom:12px;overflow:hidden}
+@media(prefers-color-scheme:dark){.gcard{background:#78350F22;border-color:#92400E}}
+.gi{padding:14px}
+.gtop{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.gicon{font-size:18px}
+.gtitle{flex:1;font-size:15px;font-weight:600;color:#92400E}
+@media(prefers-color-scheme:dark){.gtitle{color:#FCD34D}}
+.gxp{font-size:13px;font-weight:600;color:var(--amber-dk)}
+.gline{font-size:10px;font-weight:600;letter-spacing:.05em;color:#B45309;text-transform:uppercase;margin-bottom:6px}
+.ggoal{font-size:13px;color:#78350F;line-height:1.55;margin-bottom:11px}
+@media(prefers-color-scheme:dark){.ggoal{color:#FDE68A}}
+.gbtn{width:100%;padding:13px 0;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;background:#F59E0B;color:#fff}
+.gbtn:active{transform:scale(.98)}
+.lineblock{margin-bottom:16px}
+.linehdr{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.gnode{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:6px}
+.gnstatus{font-size:11px;font-weight:600;margin-bottom:3px}
+.gnname{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.gnreq{font-size:11px;color:var(--t3);line-height:1.4}
+.lrow{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:.5px solid var(--border)}
+.lrow:last-child{border-bottom:none}
+.lname{font-size:13px;font-weight:500;color:var(--t1)}.ldate{font-size:11px;color:var(--t3);margin-top:1px}
+.lxp{font-size:13px;font-weight:600;color:var(--amber-dk)}
+.toast{position:fixed;top:max(100px,calc(env(safe-area-inset-top) + 60px));left:16px;right:16px;background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:0 8px 32px rgba(0,0,0,.15);border-left:4px solid var(--amber);z-index:999;transform:translateY(-12px);opacity:0;transition:all .3s ease;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.ttitle{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.tbody{font-size:12px;color:var(--t2)}
+.infobox{background:#EFF6FF;border-radius:12px;padding:12px 14px;font-size:12px;color:#1E40AF;line-height:1.6;margin-bottom:12px}
+@media(prefers-color-scheme:dark){.infobox{background:#1E3A8A22;color:#93C5FD}}
+.alldone{background:var(--green-lt);border-radius:12px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--green-dk);text-align:center;margin-bottom:12px;display:none}
+.empty{text-align:center;color:var(--t3);font-size:13px;padding:40px 20px;line-height:1.7}
+.edit-btn{background:transparent;border:.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--t2);cursor:pointer}
+.reset-link{text-align:center;color:var(--red);font-size:12px;padding:14px;display:block;background:none;border:none;width:100%;cursor:pointer;margin-top:4px}
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end}
+.moverlay.open{display:flex}
+.msheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 16px;padding-bottom:max(24px,env(safe-area-inset-bottom,24px));width:100%;max-height:85vh;overflow-y:auto}
+.mtitle{font-size:17px;font-weight:600;margin-bottom:4px}
+.msub{font-size:13px;color:var(--t2);margin-bottom:20px}
+.mrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.mlbl{width:90px;font-size:13px;font-weight:500;color:var(--t1)}
+.mslider{flex:1;height:36px;accent-color:var(--blue)}
+.mval{width:28px;text-align:right;font-size:14px;font-weight:600;color:var(--t1)}
+.msave{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="toast" id="toast"><div class="ttitle" id="tt"></div><div class="tbody" id="tb"></div></div>
+
+<div class="moverlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="msheet">
+    <div class="mtitle">Modifica statistiche</div>
+    <div class="msub">Aggiorna i valori dopo i test o in qualsiasi momento</div>
+    <div id="mstats"></div>
+    <button class="msave" onclick="saveStats()">Salva</button>
+  </div>
+</div>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div><div class="hdr-lbl">TOMMY · CALISTHENICS RPG</div><div class="hdr-lvl" id="hl">Lv.1</div></div>
+    <div class="xp-badge"><div class="xp-badge-num" id="hx">0</div><div class="xp-badge-lbl">XP TOTALI</div></div>
+  </div>
+  <div class="xp-bar-row"><span>Progresso livello</span><span id="hxt">0/90 XP → Lv.2</span></div>
+  <div class="xp-bg"><div class="xp-fill" id="hbar" style="width:0%"></div></div>
+</div>
+
+<div class="content">
+
+  <div id="p-char" class="tab-pane active">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;margin-top:2px">
+      <div class="sec" style="margin:0">Statistiche</div>
+      <button class="edit-btn" onclick="openModal()">Modifica</button>
+    </div>
+    <div id="stat-list"></div>
+    <div class="sec" style="margin-top:16px">Storico recente</div>
+    <div class="card" id="log-short"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="edit-btn" style="flex:1" onclick="exportBackup()">Esporta backup</button>
+      <button class="edit-btn" style="flex:1" onclick="importBackup()">Importa backup</button>
+    </div>
+    <button class="reset-link" onclick="resetAll()">Reset completo del progresso</button>
+  </div>
+
+  <div id="p-quest" class="tab-pane">
+    <div style="margin-bottom:12px;margin-top:2px">
+      <div class="sec" style="margin:0">Quest del giorno</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:2px" id="qdate"></div>
+    </div>
+    <div class="infobox">Dopo ogni quest indica quanto ti è sembrata: le tue risposte calibrano nel tempo la difficoltà di quelle successive. Ogni settimana trovi anche una quest di mobilità dedicata. Le sfide di sblocco restano attive finché non le superi.</div>
+    <div id="glist"></div>
+    <div class="alldone" id="alldone">Tutte le quest di oggi completate! Ottimo lavoro!</div>
+    <div id="qlist"></div>
+  </div>
+
+  <div id="p-skill" class="tab-pane">
+    <div class="sec" style="margin-top:2px">Percorso skill</div>
+    <div id="sgrid"></div>
+  </div>
+
+  <div id="p-log" class="tab-pane">
+    <div class="sec" style="margin-top:2px">Storico completo</div>
+    <div class="card" id="log-full"></div>
+  </div>
+
+</div>
+
+<div class="bnav">
+  <button class="nbtn active" onclick="goTab('char')" id="nb-char">
+    <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8z"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>Personaggio
+  </button>
+  <button class="nbtn" onclick="goTab('quest')" id="nb-quest">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quest
+  </button>
+  <button class="nbtn" onclick="goTab('skill')" id="nb-skill">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Skill
+  </button>
+  <button class="nbtn" onclick="goTab('log')" id="nb-log">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log
+  </button>
+</div>
+</div>
+
+<script>
+const MAX_LEVEL=100;
+const XP_BASE=90, XP_GROWTH=1.06;
+function stepRaw(n){return Math.round(XP_BASE*Math.pow(XP_GROWTH,n-1));}
+const LV_CUM=(()=>{const arr=[0];for(let n=1;n<MAX_LEVEL;n++){arr.push(arr[n-1]+stepRaw(n));}return arr;})();
+function cumXp(level){const idx=Math.min(Math.max(level,1),MAX_LEVEL)-1;return LV_CUM[idx];}
+function xpStep(n){if(n>=MAX_LEVEL)return 0;return stepRaw(n);}
+function lvFromXp(xp){let l=1;while(l<MAX_LEVEL&&xp>=LV_CUM[l])l++;return l;}
+function tierOf(l){
+  const base=Math.min(Math.ceil(l/6),5);
+  const adj=Math.round(S.calib||0);
+  return Math.min(Math.max(base+adj,1),5);
+}
+
+const SC={str:{l:"Forza",ic:"💪",c:"#E24B4A",b:"rgba(226,75,74,.12)",d:"Pull-up, dips, squat"},end:{l:"Resistenza",ic:"🔥",c:"#EF9F27",b:"rgba(239,159,39,.12)",d:"Volume e densità"},exp:{l:"Esplosività",ic:"⚡",c:"#7F77DD",b:"rgba(127,119,221,.12)",d:"Salti e velocità"},mob:{l:"Mobilità",ic:"🌿",c:"#1D9E75",b:"rgba(29,158,117,.12)",d:"ROM e flessibilità"},skl:{l:"Skill",ic:"🎯",c:"#378ADD",b:"rgba(55,138,221,.12)",d:"Muscle-up, L-sit, pistol"}};
+const CC={pull:{bg:"#DBEAFE",c:"#1E40AF"},push:{bg:"#D1FAE5",c:"#065F46"},core:{bg:"#EDE9FE",c:"#4C1D95"},legs:{bg:"#DCFCE7",c:"#14532D"},skill:{bg:"#FEE2E2",c:"#7F1D1D"},mobility:{bg:"#CCFBF1",c:"#0F766E"}};
+
+const P={
+1:[
+  {id:"t1a",cat:"pull",cl:"Pull",xp:70,n:"Hang & Pull",d:"2 serie da 3 pull-up puliti + 3×8 Australian pull-up con fermo 1\" al petto",b:{str:3,end:1}},
+  {id:"t1b",cat:"push",cl:"Push",xp:60,n:"Fondamenta push",d:"4 serie da 10 push-up con fermo 1\" in basso, corpo rigido",b:{str:2,end:2}},
+  {id:"t1c",cat:"core",cl:"Core",xp:65,n:"Corpo cavo",d:"3 tentativi hollow body hold max durata + accumula 2 min di plank",b:{skl:2,end:2}},
+  {id:"t1d",cat:"legs",cl:"Gambe",xp:60,n:"Squat blitz",d:"5×10 air squat fondo completo a ritmo 3\" discesa, 1' rec",b:{end:2,exp:1}},
+  {id:"t1e",cat:"skill",cl:"Skill",xp:70,n:"Tuck hold base",d:"6 tentativi tuck hold su parallele o sedie, max durata, 90\" rec",b:{skl:3,mob:1}},
+  {id:"t1f",cat:"pull",cl:"Pull",xp:55,n:"Presa di ferro",d:"Dead hang 3×25\" (spalle attive) + scapular pull-up 3×8",b:{str:2,mob:1}},
+  {id:"t1g",cat:"push",cl:"Push",xp:60,n:"Dips e pike",d:"3×5 dips a corpo libero discesa lenta 3\" + 3×5 pike push-up",b:{str:3,mob:1}},
+  {id:"t1h",cat:"legs",cl:"Gambe",xp:65,n:"Salti del guerriero",d:"5×5 squat jump massima intensità, 90\" rec",b:{exp:3,str:1}},
+  {id:"t1i",cat:"skill",cl:"Skill",xp:60,n:"Mobilità caviglia",d:"Ankle rocks 3×15/lato + 3×5 box squat assistiti",b:{mob:3,skl:1}},
+  {id:"t1j",cat:"core",cl:"Core",xp:50,n:"Plank mission",d:"Accumula 3 min totali di plank in serie da 30-60\"",b:{end:3}},
+],
+2:[
+  {id:"t2a",cat:"pull",cl:"Pull",xp:85,n:"Pull-up volume",d:"5 serie da 5 pull-up con 90\" rec, ogni rep controllata",b:{str:4,end:2}},
+  {id:"t2b",cat:"push",cl:"Push",xp:80,n:"Dips strength",d:"4×6 dips profondi (>90°) + 3×5 pike push-up su rialzo",b:{str:4,mob:1}},
+  {id:"t2c",cat:"core",cl:"Core",xp:85,n:"Hold progression",d:"8 tentativi tenuta gambe progressivamente distese, 60\" rec",b:{skl:4,mob:2}},
+  {id:"t2d",cat:"legs",cl:"Gambe",xp:80,n:"Bulgarian burn",d:"4×8/lato Bulgarian split squat a corpo libero, 90\" rec",b:{str:3,end:2}},
+  {id:"t2e",cat:"skill",cl:"Skill",xp:90,n:"Transizione base",d:"Kipping pull-up 3×3 + chin over bar esplosivo 3×3",b:{skl:4,str:2}},
+  {id:"t2f",cat:"pull",cl:"Pull",xp:85,n:"Explosive pull",d:"4×3 pull-up esplosivi + 3×5 negative lente 5\"",b:{str:3,exp:2}},
+  {id:"t2g",cat:"push",cl:"Push",xp:80,n:"Push esplosivo",d:"3×5 push-up esplosivi + 3×8 push-up presa stretta",b:{exp:2,str:3}},
+  {id:"t2h",cat:"legs",cl:"Gambe",xp:85,n:"Equilibrio monopodalico",d:"3×3/lato squat monopodalico assistito + 5×5 squat jump",b:{skl:2,exp:3}},
+  {id:"t2i",cat:"skill",cl:"Skill",xp:85,n:"Hold pro",d:"4 serie tenuta 20\"+, 60\" rec, lombare sempre a terra",b:{skl:3,end:2}},
+  {id:"t2j",cat:"core",cl:"Core",xp:80,n:"Hold + plank",d:"Accumula 20\" tenuta core + 2×45\" plank",b:{skl:3,end:2}},
+],
+3:[
+  {id:"t3a",cat:"pull",cl:"Pull",xp:100,n:"Pull-up density",d:"EMOM 8 minuti: 4 pull-up ogni minuto, forma impeccabile",b:{str:4,end:3}},
+  {id:"t3b",cat:"push",cl:"Push",xp:100,n:"Ring dips intro",d:"4×5 ring dips + 3×4 pike push-up su rialzo alto",b:{str:4,mob:2}},
+  {id:"t3c",cat:"core",cl:"Core",xp:110,n:"Hold 30",d:"Accumula 30\" tenuta core avanzata in sessione",b:{skl:5,mob:2}},
+  {id:"t3d",cat:"legs",cl:"Gambe",xp:105,n:"Squat strength",d:"4×3/lato squat monopodalico assistito + bilanciere 3×5 a 70%",b:{skl:4,str:3}},
+  {id:"t3e",cat:"skill",cl:"Skill",xp:115,n:"Transizione avanzata",d:"False grip pull-up 4×3 + transizione bassa sulla sbarra 3×2",b:{skl:6,str:3}},
+  {id:"t3f",cat:"pull",cl:"Pull",xp:100,n:"Weighted pull",d:"3×3 pull-up +5kg + 3×5 corpo libero esplosivi, 3' rec",b:{str:6,exp:1}},
+  {id:"t3g",cat:"push",cl:"Push",xp:100,n:"Dips power",d:"3×3 dips esplosivi + 4×6 dips lenti 3\" discesa, 2' rec",b:{exp:3,str:4}},
+  {id:"t3h",cat:"legs",cl:"Gambe",xp:100,n:"Squat loaded",d:"Squat bilanciere 3×5 a 75% 1RM + 3×8 squat jump reattivi",b:{str:5,exp:2}},
+  {id:"t3i",cat:"skill",cl:"Skill",xp:105,n:"Core avanzato",d:"4×5 negative lente (3\" discesa) su panca",b:{skl:4,end:3}},
+  {id:"t3j",cat:"core",cl:"Core",xp:110,n:"Hold 30 + hollow",d:"Tenuta 30\" accumulati + hollow body 4×20\"",b:{skl:5,mob:2}},
+],
+4:[
+  {id:"t4a",cat:"pull",cl:"Pull",xp:130,n:"Weighted pull pro",d:"4×3 pull-up +10kg + 3×5 corpo libero esplosivi, 3' rec",b:{str:6,exp:2}},
+  {id:"t4b",cat:"push",cl:"Push",xp:130,n:"Ring dips strength",d:"5×5 ring dips + 3×3 HSPU assistiti a muro",b:{str:6,mob:3}},
+  {id:"t4c",cat:"core",cl:"Core",xp:135,n:"Hold 60",d:"Accumula 60\" tenuta core avanzata in sessione",b:{skl:6,mob:3}},
+  {id:"t4d",cat:"legs",cl:"Gambe",xp:130,n:"Volume avanzato",d:"5×5/lato squat monopodalico + 3×5 Bulgarian con +10kg",b:{skl:5,str:4}},
+  {id:"t4e",cat:"skill",cl:"Skill",xp:145,n:"Attempt session",d:"5 tentativi skill obiettivo + 4×3 pull-up esplosivi finisher",b:{skl:7,str:4}},
+  {id:"t4f",cat:"pull",cl:"Pull",xp:125,n:"Volume king",d:"EMOM 12': 5 pull-up ogni minuto, stop 1\" in alto e in basso",b:{str:5,end:5}},
+  {id:"t4g",cat:"push",cl:"Push",xp:130,n:"Planche lean",d:"Planche lean 4×10\" + 3×6 dips +5kg, 2' rec",b:{skl:4,str:4}},
+  {id:"t4h",cat:"legs",cl:"Gambe",xp:130,n:"Squat heavy",d:"Squat bilanciere 3×3 a 85% 1RM + 3×5 Bulgarian +10kg",b:{str:7,exp:2}},
+  {id:"t4i",cat:"skill",cl:"Skill",xp:140,n:"Front lever tuck",d:"Tuck front lever 4×8\" + 3×4 pull-up +5kg",b:{skl:6,str:5}},
+  {id:"t4j",cat:"core",cl:"Core",xp:135,n:"Dragon flag",d:"4×3 dragon flag complete su panca + core 20\" finisher",b:{skl:5,end:4}},
+],
+5:[
+  {id:"t5a",cat:"pull",cl:"Pull",xp:160,n:"Strength peak",d:"5×3 pull-up +15kg + 3×3 negative lente 8\", 4' rec",b:{str:8,exp:2}},
+  {id:"t5b",cat:"push",cl:"Push",xp:160,n:"HSPU push",d:"5×3 HSPU a muro liberi + 4×4 ring dips +5kg",b:{str:7,mob:4}},
+  {id:"t5c",cat:"core",cl:"Core",xp:165,n:"Elite hold",d:"Tenuta 3×15\" + straddle attempt 3×5\"",b:{skl:7,mob:5}},
+  {id:"t5d",cat:"legs",cl:"Gambe",xp:165,n:"Squat elite",d:"Squat monopodalico bulgaro 4×4/lato + bilanciere 3×3 pesante",b:{skl:6,str:7}},
+  {id:"t5e",cat:"skill",cl:"Skill",xp:180,n:"Skill sets",d:"3 serie da 2 rep skill obiettivo + front lever 3×10\"",b:{skl:9,str:5}},
+]};
+
+const LINES=[
+ {id:"lsit",name:"L-sit",icon:"🧘",stat:"skl",color:"#7F77DD",
+  gates:[
+   {id:"lsit_g1",reqLv:1,name:"Sblocco: fondamenta L-sit",goal:"Hollow body hold 20\"+ e tuck L-sit 10\"+ in singola tenuta",xp:90,
+    unlock:[{id:"lsit_u1a",cat:"skill",cl:"L-sit",xp:75,n:"Tuck L-sit hold",d:"5 tentativi tuck L-sit, max durata, 90\" rec",b:{skl:3,mob:1}},
+            {id:"lsit_u1b",cat:"core",cl:"L-sit",xp:70,n:"Compressione anche",d:"3×10 knee raise da hang + 3×8\" tuck hold",b:{skl:2,end:1}}]},
+   {id:"lsit_g2",reqLv:10,name:"Sblocco: L-sit intermedio",goal:"Tuck L-sit 15\"+ mantenuto con controllo",xp:140,
+    unlock:[{id:"lsit_u2a",cat:"skill",cl:"L-sit",xp:100,n:"One leg extension",d:"4×8\" L-sit con una gamba tesa, alternare lato",b:{skl:4,mob:2}},
+            {id:"lsit_u2b",cat:"skill",cl:"L-sit",xp:95,n:"Straddle prep",d:"4×6\" straddle L-sit attempt su parallele",b:{skl:3,mob:2}}]},
+   {id:"lsit_g3",reqLv:22,name:"Sblocco: L-sit avanzato",goal:"L-sit parziale (una gamba tesa) tenuto 5\"+",xp:190,
+    unlock:[{id:"lsit_u3a",cat:"skill",cl:"L-sit",xp:130,n:"L-sit gambe tese",d:"6×5\" L-sit gambe tese complete, 90\" rec",b:{skl:6,mob:2}},
+            {id:"lsit_u3b",cat:"core",cl:"L-sit",xp:125,n:"L-sit accumulo",d:"Accumula 30\" totali di L-sit gambe tese in sessione",b:{skl:5,end:2}}]}
+  ]},
+ {id:"muscleup",name:"Muscle-up",icon:"🏆",stat:"str",color:"#E24B4A",
+  gates:[
+   {id:"mu_g1",reqLv:3,name:"Sblocco: fondamenta muscle-up",goal:"5 pull-up puliti consecutivi, mento sopra la sbarra",xp:100,
+    unlock:[{id:"mu_u1a",cat:"pull",cl:"Muscle-up",xp:90,n:"False grip hang",d:"5×10\" false grip dead hang + 3×5 chest-to-bar pull-up",b:{str:4,skl:1}},
+            {id:"mu_u1b",cat:"pull",cl:"Muscle-up",xp:85,n:"Explosive pull",d:"4×3 pull-up esplosivi, mento ben oltre la sbarra",b:{str:3,exp:2}}]},
+   {id:"mu_g2",reqLv:14,name:"Sblocco: transizione",goal:"False grip pull-up 3×3 con presa falsa stabile",xp:160,
+    unlock:[{id:"mu_u2a",cat:"skill",cl:"Muscle-up",xp:130,n:"Transizione bassa",d:"4×3 transizioni basse su sbarra o anelli con appoggio",b:{skl:5,str:3}},
+            {id:"mu_u2b",cat:"skill",cl:"Muscle-up",xp:125,n:"Dip lockout",d:"4×5 dip lockout da posizione transizione",b:{str:4,skl:2}}]},
+   {id:"mu_g3",reqLv:28,name:"Sblocco: quasi al muscle-up",goal:"Muscle-up assistito (banda o slancio) 3 reps pulite",xp:210,
+    unlock:[{id:"mu_u3a",cat:"skill",cl:"Muscle-up",xp:170,n:"Muscle-up negativo",d:"4×3 discese controllate 5\" da sopra la sbarra",b:{skl:7,str:4}},
+            {id:"mu_u3b",cat:"skill",cl:"Muscle-up",xp:165,n:"Muscle-up attempt",d:"6 tentativi muscle-up strict, focus sulla transizione",b:{skl:8,str:3}}]}
+  ]},
+ {id:"pistol",name:"Pistol squat",icon:"🎯",stat:"skl",color:"#1D9E75",
+  gates:[
+   {id:"pi_g1",reqLv:1,name:"Sblocco: fondamenta pistol",goal:"Air squat 20 reps pulite + buona mobilità di caviglia",xp:90,
+    unlock:[{id:"pi_u1a",cat:"legs",cl:"Pistol",xp:75,n:"Pistol assistito",d:"4×5/lato pistol assistito a montante o TRX",b:{skl:3,mob:2}},
+            {id:"pi_u1b",cat:"legs",cl:"Pistol",xp:70,n:"Ankle & box squat",d:"3×8/lato box pistol su rialzo alto + ankle mobility",b:{mob:3,skl:1}}]},
+   {id:"pi_g2",reqLv:10,name:"Sblocco: equilibrio",goal:"Pistol assistito 5 reps/lato con presa minima",xp:140,
+    unlock:[{id:"pi_u2a",cat:"legs",cl:"Pistol",xp:100,n:"Pistol su rialzo basso",d:"4×4/lato pistol su rialzo 15cm, mani libere",b:{skl:4,str:3}},
+            {id:"pi_u2b",cat:"legs",cl:"Pistol",xp:95,n:"Negative pistol",d:"4×3/lato discesa controllata 4\" in pistol",b:{skl:3,str:3}}]},
+   {id:"pi_g3",reqLv:22,name:"Sblocco: quasi al pistol",goal:"Negative pistol controllata 3 reps/lato, discesa 4\"+",xp:190,
+    unlock:[{id:"pi_u3a",cat:"legs",cl:"Pistol",xp:130,n:"Pistol libero",d:"5×3/lato pistol squat completo a corpo libero",b:{skl:6,str:5}},
+            {id:"pi_u3b",cat:"legs",cl:"Pistol",xp:125,n:"Pistol power",d:"3×3/lato pistol + salto in uscita, focus esplosività",b:{skl:4,exp:3}}]}
+  ]}
+];
+
+const MOBILITY_POOL=[
+  {id:"mob_w1",cat:"mobility",cl:"Mobilità",xp:70,n:"Reset spalle e anche",d:"10 min: shoulder dislocate con bastone 3×10 + hip flexor stretch 2×45\"/lato + thoracic rotation 2×8/lato",b:{mob:4}},
+  {id:"mob_w2",cat:"mobility",cl:"Mobilità",xp:70,n:"Mobilità da terra",d:"10 min: 90/90 hip switch 2×8/lato + couch stretch 2×60\"/lato + cat-camel 2×10",b:{mob:4}},
+  {id:"mob_w3",cat:"mobility",cl:"Mobilità",xp:70,n:"Caviglie e polsi",d:"10 min: ankle rock 3×15/lato + mobilità e stretch dei polsi 3×10 + calf stretch 2×45\"/lato",b:{mob:4}},
+  {id:"mob_w4",cat:"mobility",cl:"Mobilità",xp:70,n:"Stretching totale",d:"12 min full body: hamstring, quadricipiti, dorsali, pettorali, 45\" per lato",b:{mob:4}},
+  {id:"mob_w5",cat:"mobility",cl:"Mobilità",xp:70,n:"Colonna e core",d:"10 min: thread the needle 2×6/lato + child's pose esteso 2×60\" + cobra stretch 2×30\"",b:{mob:4}},
+];
+function weekKey(dateStr){
+  const d=new Date(dateStr+"T00:00:00");
+  const onejan=new Date(d.getFullYear(),0,1);
+  const dayOfYear=Math.floor((d-onejan)/86400000);
+  return d.getFullYear()+"-"+Math.floor(dayOfYear/7);
+}
+
+const DEF={xp:0,stats:{str:12,end:15,exp:10,mob:8,skl:5},lastDate:"",todayQuests:[],completedToday:[],completedGates:[],log:[],calib:0,lastMobilityWeek:""};
+let S=JSON.parse(JSON.stringify(DEF));
+let tab="char";
+
+function today(){return new Date().toISOString().split("T")[0];}
+
+function buildPool(level,completedGates){
+  const base=[...(P[tierOf(level)]||P[1])];
+  const bonus=[];
+  LINES.forEach(line=>{line.gates.forEach(g=>{if(completedGates.includes(g.id))bonus.push(...g.unlock);});});
+  return [...base,...bonus];
+}
+function pickQ(level,seed,completedGates){
+  const pool=buildPool(level,completedGates);
+  const arr=[...pool].sort((a,b)=>{
+    const ha=a.id.split("").reduce((s,c)=>s+c.charCodeAt(0),0);
+    const hb=b.id.split("").reduce((s,c)=>s+c.charCodeAt(0),0);
+    return((ha*seed)%31)-((hb*seed)%31);
+  });
+  const out=[],cats=new Set();
+  for(const q of arr){if(!cats.has(q.cat)&&out.length<3){out.push(q);cats.add(q.cat);}}
+  for(const q of arr){if(out.length>=3)break;if(!out.find(p=>p.id===q.id))out.push(q);}
+  return out.slice(0,3);
+}
+function nextGate(line,completedGates){
+  for(let i=0;i<line.gates.length;i++){if(!completedGates.includes(line.gates[i].id))return {gate:line.gates[i],index:i};}
+  return null;
+}
+function availableGates(level,completedGates){
+  const out=[];
+  LINES.forEach(line=>{
+    const ng=nextGate(line,completedGates);
+    if(ng&&level>=ng.gate.reqLv)out.push({...ng.gate,lineName:line.name,lineColor:line.color,lineIcon:line.icon});
+  });
+  return out;
+}
+
+function save(){try{localStorage.setItem("trpg_v3",JSON.stringify(S));}catch(e){}}
+function load(){
+  try{const d=localStorage.getItem("trpg_v3");if(d)S=JSON.parse(d);}catch(e){}
+  if(!S.completedGates)S.completedGates=[];
+  if(typeof S.calib!=="number")S.calib=0;
+  if(!S.lastMobilityWeek)S.lastMobilityWeek="";
+  checkDay();render();
+}
+function checkDay(){
+  const t=today();
+  if(S.lastDate!==t){
+    const l=lvFromXp(S.xp),seed=parseInt(t.replace(/-/g,""))%97||17;
+    S.todayQuests=pickQ(l,seed,S.completedGates);S.completedToday=[];S.lastDate=t;
+  }
+  const wk=weekKey(t);
+  if(S.lastMobilityWeek!==wk){
+    const idx=Math.abs(parseInt(t.replace(/-/g,""))||0)%MOBILITY_POOL.length;
+    const mq=MOBILITY_POOL[idx];
+    if(!S.todayQuests.find(q=>q.id===mq.id))S.todayQuests.push(mq);
+    S.lastMobilityWeek=wk;
+  }
+  save();
+}
+let tmt=null;
+function toast(title,body){
+  const el=document.getElementById("toast");
+  document.getElementById("tt").textContent=title;
+  document.getElementById("tb").textContent=body;
+  el.classList.add("show");
+  if(tmt)clearTimeout(tmt);
+  tmt=setTimeout(()=>el.classList.remove("show"),3800);
+}
+function updHdr(){
+  const l=lvFromXp(S.xp),curBase=cumXp(l),step=xpStep(l),inLevel=S.xp-curBase;
+  const maxed=l>=MAX_LEVEL;
+  const pct=maxed?100:Math.min((inLevel/step)*100,100);
+  document.getElementById("hl").textContent=`Lv.${l}`;
+  document.getElementById("hx").textContent=S.xp;
+  document.getElementById("hxt").textContent=maxed?"Livello massimo raggiunto":`${inLevel}/${step} XP → Lv.${l+1}`;
+  document.getElementById("hbar").style.width=Math.round(pct)+"%";
+}
+function rStats(){
+  document.getElementById("stat-list").innerHTML=Object.entries(SC).map(([k,c])=>{
+    const v=S.stats[k]||0;
+    return`<div class="card cp" style="margin-bottom:10px">
+      <div class="srow"><div class="sico" style="background:${c.b}">${c.ic}</div>
+      <div class="smeta"><div class="sname">${c.l}</div><div class="sdesc">${c.d}</div></div>
+      <div class="sval" style="color:${c.c}">${v}</div></div>
+      <div class="bbar"><div class="bfill" style="width:${v}%;background:${c.c}"></div></div>
+    </div>`;
+  }).join("");
+}
+function rLogShort(){
+  const el=document.getElementById("log-short");
+  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Completa la tua prima quest<br>per iniziare lo storico!</div>`;return;}
+  el.innerHTML=S.log.slice(0,8).map(e=>`<div class="lrow"><div><div class="lname">${e.q}</div><div class="ldate">${e.d}</div></div><div class="lxp">+${e.x} XP</div></div>`).join("");
+}
+function rQuests(){
+  document.getElementById("qdate").textContent=today();
+  const l=lvFromXp(S.xp);
+  const gates=availableGates(l,S.completedGates);
+  document.getElementById("glist").innerHTML=gates.map(g=>`
+    <div class="gcard"><div class="gi">
+      <div class="gtop"><span class="gicon">${g.lineIcon}</span><span class="gtitle">${g.name}</span><span class="gxp">+${g.xp} XP</span></div>
+      <div class="gline">${g.lineName}</div>
+      <div class="ggoal"><b>Obiettivo:</b> ${g.goal}</div>
+      <button class="gbtn" onclick="doGate('${g.id}')">Ho raggiunto l'obiettivo</button>
+    </div></div>`).join("");
+  const done=S.todayQuests.length>0&&S.todayQuests.every(q=>S.completedToday.includes(q.id));
+  document.getElementById("alldone").style.display=done?"block":"none";
+  if(!S.todayQuests.length){document.getElementById("qlist").innerHTML=`<div class="empty">Caricamento...</div>`;return;}
+  document.getElementById("qlist").innerHTML=S.todayQuests.map(q=>{
+    const dn=S.completedToday.includes(q.id);
+    const cc=CC[q.cat]||{bg:"#f3f4f6",c:"#444"};
+    const bs=Object.entries(q.b).map(([k,v])=>`<span class="bpill" style="background:${SC[k]?.b};color:${SC[k]?.c}">+${v} ${SC[k]?.l}</span>`).join("");
+    return`<div class="qcard${dn?" done":""}"><div class="qi">
+      <div class="qtop"><span class="qcat" style="background:${cc.bg};color:${cc.c}">${q.cl.toUpperCase()}</span><span class="qtitle">${q.n}</span><span class="qxp">+${q.xp} XP</span></div>
+      <div class="qdesc">${q.d}</div>
+      <div class="qboosts">${bs}</div>
+      ${dn?`<button class="qbtn done-btn">Completata!</button>`:`<div class="qfeedback">
+        <button class="qfbtn qfb-easy" onclick="doQ('${q.id}',1)">Facile</button>
+        <button class="qfbtn qfb-mid" onclick="doQ('${q.id}',0)">Giusto</button>
+        <button class="qfbtn qfb-hard" onclick="doQ('${q.id}',-1)">Difficile</button>
+      </div>`}
+    </div></div>`;
+  }).join("");
+}
+function rSkills(){
+  const l=lvFromXp(S.xp);
+  document.getElementById("sgrid").innerHTML=LINES.map(line=>{
+    const chain=line.gates.map((g,i)=>{
+      const done=S.completedGates.includes(g.id);
+      const prevOk=i===0||S.completedGates.includes(line.gates[i-1].id);
+      const avail=!done&&prevOk&&l>=g.reqLv;
+      const status=done?"Sbloccata":avail?"Disponibile ora":"Bloccata";
+      const color=done?"#10B981":avail?"#F59E0B":"#9CA3AF";
+      return `<div class="gnode">
+        <div class="gnstatus" style="color:${color}">${status}</div>
+        <div class="gnname">${g.name}</div>
+        <div class="gnreq">${done||avail?("Obiettivo: "+g.goal):("Richiede livello "+g.reqLv)}</div>
+      </div>`;
+    }).join("");
+    return `<div class="lineblock">
+      <div class="linehdr" style="color:${line.color}">${line.icon} ${line.name}</div>
+      ${chain}
+    </div>`;
+  }).join("");
+}
+function rLogFull(){
+  const el=document.getElementById("log-full");
+  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Nessun allenamento ancora.<br>Completa le tue prime quest!</div>`;return;}
+  el.innerHTML=S.log.map(e=>`<div class="lrow"><div><div class="lname">${e.q}</div><div class="ldate">${e.d}</div></div><div class="lxp">+${e.x} XP</div></div>`).join("");
+}
+function render(){
+  updHdr();
+  if(tab==="char"){rStats();rLogShort();}
+  else if(tab==="quest"){rQuests();}
+  else if(tab==="skill"){rSkills();}
+  else if(tab==="log"){rLogFull();}
+}
+function goTab(t){
+  document.querySelectorAll(".tab-pane").forEach(e=>e.classList.remove("active"));
+  document.querySelectorAll(".nbtn").forEach(e=>e.classList.remove("active"));
+  document.getElementById("p-"+t).classList.add("active");
+  document.getElementById("nb-"+t).classList.add("active");
+  tab=t;render();
+}
+function doQ(qid,fb){
+  if(S.completedToday.includes(qid))return;
+  const q=S.todayQuests.find(x=>x.id===qid);if(!q)return;
+  const pl=lvFromXp(S.xp);
+  S.xp+=q.xp;
+  const nl=lvFromXp(S.xp);
+  Object.entries(q.b).forEach(([k,v])=>{S.stats[k]=Math.min(100,(S.stats[k]||0)+v);});
+  if(typeof S.calib!=="number")S.calib=0;
+  if(typeof fb==="number")S.calib=S.calib*0.8+fb*0.2;
+  S.completedToday.push(qid);
+  if(!S.log)S.log=[];
+  S.log.unshift({d:today(),q:q.n,x:q.xp});
+  S.log=S.log.slice(0,150);
+  save();
+  if(nl>pl)toast("Level up! Sei ora Lv."+nl,"Quest più impegnative disponibili da ora!");
+  else toast("+"+q.xp+" XP – "+q.n,Object.entries(q.b).map(([k,v])=>"+"+v+" "+SC[k]?.l).join(" · "));
+  rQuests();updHdr();
+}
+function doGate(gid){
+  if(S.completedGates.includes(gid))return;
+  let gate=null,line=null;
+  LINES.forEach(ln=>{ln.gates.forEach(g=>{if(g.id===gid){gate=g;line=ln;}});});
+  if(!gate)return;
+  S.xp+=gate.xp;
+  S.stats[line.stat]=Math.min(100,(S.stats[line.stat]||0)+6);
+  S.completedGates.push(gid);
+  if(!S.log)S.log=[];
+  S.log.unshift({d:today(),q:"Sblocco: "+gate.name,x:gate.xp});
+  save();
+  toast("Skill sbloccata: "+line.name,"Nuovi esercizi "+line.name+" entrano in rotazione da domani.");
+  rQuests();rSkills();updHdr();
+}
+function openModal(){
+  document.getElementById("mstats").innerHTML=Object.entries(SC).map(([k,c])=>`
+    <div class="mrow">
+      <div class="mlbl">${c.ic} ${c.l}</div>
+      <input type="range" class="mslider" min="1" max="100" value="${S.stats[k]||10}" id="e-${k}" oninput="document.getElementById('v-${k}').textContent=this.value">
+      <div class="mval" id="v-${k}">${S.stats[k]||10}</div>
+    </div>`).join("");
+  document.getElementById("modal").classList.add("open");
+}
+function saveStats(){
+  Object.keys(SC).forEach(k=>{const el=document.getElementById("e-"+k);if(el)S.stats[k]=parseInt(el.value);});
+  save();
+  document.getElementById("modal").classList.remove("open");
+  render();
+  toast("Statistiche aggiornate","I nuovi valori sono salvati");
+}
+function exportBackup(){
+  const data=JSON.stringify(S);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(data).then(()=>{
+      toast("Backup copiato","Incollalo in Note per salvarlo prima di aggiornare l'app");
+    }).catch(()=>{prompt("Copia questo testo e salvalo:",data);});
+  }else{
+    prompt("Copia questo testo e salvalo:",data);
+  }
+}
+function importBackup(){
+  const txt=prompt("Incolla qui il testo del backup:");
+  if(!txt)return;
+  try{
+    const parsed=JSON.parse(txt);
+    S=parsed;
+    if(!S.completedGates)S.completedGates=[];
+    if(typeof S.calib!=="number")S.calib=0;
+    if(!S.lastMobilityWeek)S.lastMobilityWeek="";
+    if(!S.log)S.log=[];
+    S.lastDate="";
+    checkDay();render();
+    toast("Backup importato","I tuoi progressi sono stati ripristinati");
+  }catch(e){
+    toast("Errore","Il testo incollato non è un backup valido");
+  }
+}
+function resetAll(){
+  if(!confirm("Sei sicuro? Tutti i progressi verranno cancellati."))return;
+  S=JSON.parse(JSON.stringify(DEF));checkDay();save();render();
+}
+load();
+</script>
+</body>
+</html>
