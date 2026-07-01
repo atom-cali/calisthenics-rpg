@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -123,19 +123,19 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 
 <div class="moverlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="msheet">
-    <div class="mtitle">Modifica statistiche</div>
-    <div class="msub">Aggiorna i valori dopo i test o in qualsiasi momento</div>
+    <div class="mtitle">Edit stats</div>
+    <div class="msub">Update the values after testing, or any time</div>
     <div id="mstats"></div>
-    <button class="msave" onclick="saveStats()">Salva</button>
+    <button class="msave" onclick="saveStats()">Save</button>
   </div>
 </div>
 
 <div class="hdr">
   <div class="hdr-top">
     <div><div class="hdr-lbl">TOMMY · CALISTHENICS RPG</div><div class="hdr-lvl" id="hl">Lv.1</div></div>
-    <div class="xp-badge"><div class="xp-badge-num" id="hx">0</div><div class="xp-badge-lbl">XP TOTALI</div></div>
+    <div class="xp-badge"><div class="xp-badge-num" id="hx">0</div><div class="xp-badge-lbl">TOTAL XP</div></div>
   </div>
-  <div class="xp-bar-row"><span>Progresso livello</span><span id="hxt">0/90 XP → Lv.2</span></div>
+  <div class="xp-bar-row"><span>Level progress</span><span id="hxt">0/90 XP → Lv.2</span></div>
   <div class="xp-bg"><div class="xp-fill" id="hbar" style="width:0%"></div></div>
 </div>
 
@@ -143,37 +143,37 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 
   <div id="p-char" class="tab-pane active">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;margin-top:2px">
-      <div class="sec" style="margin:0">Statistiche</div>
-      <button class="edit-btn" onclick="openModal()">Modifica</button>
+      <div class="sec" style="margin:0">Stats</div>
+      <button class="edit-btn" onclick="openModal()">Edit</button>
     </div>
     <div id="stat-list"></div>
-    <div class="sec" style="margin-top:16px">Storico recente</div>
+    <div class="sec" style="margin-top:16px">Recent history</div>
     <div class="card" id="log-short"></div>
     <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="edit-btn" style="flex:1" onclick="exportBackup()">Esporta backup</button>
-      <button class="edit-btn" style="flex:1" onclick="importBackup()">Importa backup</button>
+      <button class="edit-btn" style="flex:1" onclick="exportBackup()">Export backup</button>
+      <button class="edit-btn" style="flex:1" onclick="importBackup()">Import backup</button>
     </div>
-    <button class="reset-link" onclick="resetAll()">Reset completo del progresso</button>
+    <button class="reset-link" onclick="resetAll()">Full progress reset</button>
   </div>
 
   <div id="p-quest" class="tab-pane">
     <div style="margin-bottom:12px;margin-top:2px">
-      <div class="sec" style="margin:0">Quest del giorno</div>
+      <div class="sec" style="margin:0">Today's quests</div>
       <div style="font-size:11px;color:var(--t3);margin-top:2px" id="qdate"></div>
     </div>
-    <div class="infobox">Dopo ogni quest indica quanto ti è sembrata: le tue risposte calibrano nel tempo la difficoltà di quelle successive. Ogni settimana trovi anche una quest di mobilità dedicata. Le sfide di sblocco restano attive finché non le superi.</div>
+    <div class="infobox">After each quest, rate how it felt: your answers gradually calibrate the difficulty of future ones. Every week you'll also get a dedicated mobility quest. Unlock challenges stay active until you clear them.</div>
     <div id="glist"></div>
-    <div class="alldone" id="alldone">Tutte le quest di oggi completate! Ottimo lavoro!</div>
+    <div class="alldone" id="alldone">All of today's quests completed! Great work!</div>
     <div id="qlist"></div>
   </div>
 
   <div id="p-skill" class="tab-pane">
-    <div class="sec" style="margin-top:2px">Percorso skill</div>
+    <div class="sec" style="margin-top:2px">Skill path</div>
     <div id="sgrid"></div>
   </div>
 
   <div id="p-log" class="tab-pane">
-    <div class="sec" style="margin-top:2px">Storico completo</div>
+    <div class="sec" style="margin-top:2px">Full history</div>
     <div class="card" id="log-full"></div>
   </div>
 
@@ -181,13 +181,13 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 
 <div class="bnav">
   <button class="nbtn active" onclick="goTab('char')" id="nb-char">
-    <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8z"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>Personaggio
+    <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8z"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>Character
   </button>
   <button class="nbtn" onclick="goTab('quest')" id="nb-quest">
-    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quest
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quests
   </button>
   <button class="nbtn" onclick="goTab('skill')" id="nb-skill">
-    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Skill
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Skills
   </button>
   <button class="nbtn" onclick="goTab('log')" id="nb-log">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log
@@ -209,111 +209,111 @@ function tierOf(l){
   return Math.min(Math.max(base+adj,1),5);
 }
 
-const SC={str:{l:"Forza",ic:"💪",c:"#E24B4A",b:"rgba(226,75,74,.12)",d:"Pull-up, dips, squat"},end:{l:"Resistenza",ic:"🔥",c:"#EF9F27",b:"rgba(239,159,39,.12)",d:"Volume e densità"},exp:{l:"Esplosività",ic:"⚡",c:"#7F77DD",b:"rgba(127,119,221,.12)",d:"Salti e velocità"},mob:{l:"Mobilità",ic:"🌿",c:"#1D9E75",b:"rgba(29,158,117,.12)",d:"ROM e flessibilità"},skl:{l:"Skill",ic:"🎯",c:"#378ADD",b:"rgba(55,138,221,.12)",d:"Muscle-up, L-sit, pistol"}};
+const SC={str:{l:"Strength",ic:"💪",c:"#E24B4A",b:"rgba(226,75,74,.12)",d:"Pull-ups, dips, squats"},end:{l:"Endurance",ic:"🔥",c:"#EF9F27",b:"rgba(239,159,39,.12)",d:"Volume and density"},exp:{l:"Explosiveness",ic:"⚡",c:"#7F77DD",b:"rgba(127,119,221,.12)",d:"Jumps and speed"},mob:{l:"Mobility",ic:"🌿",c:"#1D9E75",b:"rgba(29,158,117,.12)",d:"ROM and flexibility"},skl:{l:"Skill",ic:"🎯",c:"#378ADD",b:"rgba(55,138,221,.12)",d:"Muscle-up, L-sit, pistol squat"}};
 const CC={pull:{bg:"#DBEAFE",c:"#1E40AF"},push:{bg:"#D1FAE5",c:"#065F46"},core:{bg:"#EDE9FE",c:"#4C1D95"},legs:{bg:"#DCFCE7",c:"#14532D"},skill:{bg:"#FEE2E2",c:"#7F1D1D"},mobility:{bg:"#CCFBF1",c:"#0F766E"}};
 
 const P={
 1:[
-  {id:"t1a",cat:"pull",cl:"Pull",xp:70,n:"Hang & Pull",d:"2 serie da 3 pull-up puliti + 3×8 Australian pull-up con fermo 1\" al petto",b:{str:3,end:1}},
-  {id:"t1b",cat:"push",cl:"Push",xp:60,n:"Fondamenta push",d:"4 serie da 10 push-up con fermo 1\" in basso, corpo rigido",b:{str:2,end:2}},
-  {id:"t1c",cat:"core",cl:"Core",xp:65,n:"Corpo cavo",d:"3 tentativi hollow body hold max durata + accumula 2 min di plank",b:{skl:2,end:2}},
-  {id:"t1d",cat:"legs",cl:"Gambe",xp:60,n:"Squat blitz",d:"5×10 air squat fondo completo a ritmo 3\" discesa, 1' rec",b:{end:2,exp:1}},
-  {id:"t1e",cat:"skill",cl:"Skill",xp:70,n:"Tuck hold base",d:"6 tentativi tuck hold su parallele o sedie, max durata, 90\" rec",b:{skl:3,mob:1}},
-  {id:"t1f",cat:"pull",cl:"Pull",xp:55,n:"Presa di ferro",d:"Dead hang 3×25\" (spalle attive) + scapular pull-up 3×8",b:{str:2,mob:1}},
-  {id:"t1g",cat:"push",cl:"Push",xp:60,n:"Dips e pike",d:"3×5 dips a corpo libero discesa lenta 3\" + 3×5 pike push-up",b:{str:3,mob:1}},
-  {id:"t1h",cat:"legs",cl:"Gambe",xp:65,n:"Salti del guerriero",d:"5×5 squat jump massima intensità, 90\" rec",b:{exp:3,str:1}},
-  {id:"t1i",cat:"skill",cl:"Skill",xp:60,n:"Mobilità caviglia",d:"Ankle rocks 3×15/lato + 3×5 box squat assistiti",b:{mob:3,skl:1}},
-  {id:"t1j",cat:"core",cl:"Core",xp:50,n:"Plank mission",d:"Accumula 3 min totali di plank in serie da 30-60\"",b:{end:3}},
+  {id:"t1a",cat:"pull",cl:"Pull",xp:70,n:"Hang & Pull",d:"2 sets of 3 clean pull-ups + 3×8 Australian pull-ups with a 1\" pause at the chest",b:{str:3,end:1}},
+  {id:"t1b",cat:"push",cl:"Push",xp:60,n:"Push foundations",d:"4 sets of 10 push-ups with a 1\" pause at the bottom, rigid body",b:{str:2,end:2}},
+  {id:"t1c",cat:"core",cl:"Core",xp:65,n:"Hollow body",d:"3 attempts at max-duration hollow body hold + accumulate 2 min of plank",b:{skl:2,end:2}},
+  {id:"t1d",cat:"legs",cl:"Legs",xp:60,n:"Squat blitz",d:"5×10 air squats, full depth, 3\" descent tempo, 1' rest",b:{end:2,exp:1}},
+  {id:"t1e",cat:"skill",cl:"Skill",xp:70,n:"Basic tuck hold",d:"6 attempts at tuck hold on parallettes or chairs, max duration, 90\" rest",b:{skl:3,mob:1}},
+  {id:"t1f",cat:"pull",cl:"Pull",xp:55,n:"Iron grip",d:"Dead hang 3×25\" (active shoulders) + scapular pull-up 3×8",b:{str:2,mob:1}},
+  {id:"t1g",cat:"push",cl:"Push",xp:60,n:"Dips and pike",d:"3×5 bodyweight dips with slow 3\" descent + 3×5 pike push-ups",b:{str:3,mob:1}},
+  {id:"t1h",cat:"legs",cl:"Legs",xp:65,n:"Warrior jumps",d:"5×5 squat jumps at max intensity, 90\" rest",b:{exp:3,str:1}},
+  {id:"t1i",cat:"skill",cl:"Skill",xp:60,n:"Ankle mobility",d:"Ankle rocks 3×15/side + 3×5 assisted box squats",b:{mob:3,skl:1}},
+  {id:"t1j",cat:"core",cl:"Core",xp:50,n:"Plank mission",d:"Accumulate 3 total min of plank in 30-60\" sets",b:{end:3}},
 ],
 2:[
-  {id:"t2a",cat:"pull",cl:"Pull",xp:85,n:"Pull-up volume",d:"5 serie da 5 pull-up con 90\" rec, ogni rep controllata",b:{str:4,end:2}},
-  {id:"t2b",cat:"push",cl:"Push",xp:80,n:"Dips strength",d:"4×6 dips profondi (>90°) + 3×5 pike push-up su rialzo",b:{str:4,mob:1}},
-  {id:"t2c",cat:"core",cl:"Core",xp:85,n:"Hold progression",d:"8 tentativi tenuta gambe progressivamente distese, 60\" rec",b:{skl:4,mob:2}},
-  {id:"t2d",cat:"legs",cl:"Gambe",xp:80,n:"Bulgarian burn",d:"4×8/lato Bulgarian split squat a corpo libero, 90\" rec",b:{str:3,end:2}},
-  {id:"t2e",cat:"skill",cl:"Skill",xp:90,n:"Transizione base",d:"Kipping pull-up 3×3 + chin over bar esplosivo 3×3",b:{skl:4,str:2}},
-  {id:"t2f",cat:"pull",cl:"Pull",xp:85,n:"Explosive pull",d:"4×3 pull-up esplosivi + 3×5 negative lente 5\"",b:{str:3,exp:2}},
-  {id:"t2g",cat:"push",cl:"Push",xp:80,n:"Push esplosivo",d:"3×5 push-up esplosivi + 3×8 push-up presa stretta",b:{exp:2,str:3}},
-  {id:"t2h",cat:"legs",cl:"Gambe",xp:85,n:"Equilibrio monopodalico",d:"3×3/lato squat monopodalico assistito + 5×5 squat jump",b:{skl:2,exp:3}},
-  {id:"t2i",cat:"skill",cl:"Skill",xp:85,n:"Hold pro",d:"4 serie tenuta 20\"+, 60\" rec, lombare sempre a terra",b:{skl:3,end:2}},
-  {id:"t2j",cat:"core",cl:"Core",xp:80,n:"Hold + plank",d:"Accumula 20\" tenuta core + 2×45\" plank",b:{skl:3,end:2}},
+  {id:"t2a",cat:"pull",cl:"Pull",xp:85,n:"Pull-up volume",d:"5 sets of 5 pull-ups with 90\" rest, every rep controlled",b:{str:4,end:2}},
+  {id:"t2b",cat:"push",cl:"Push",xp:80,n:"Dips strength",d:"4×6 deep dips (>90°) + 3×5 pike push-ups on an elevated surface",b:{str:4,mob:1}},
+  {id:"t2c",cat:"core",cl:"Core",xp:85,n:"Hold progression",d:"8 attempts at holds with progressively straighter legs, 60\" rest",b:{skl:4,mob:2}},
+  {id:"t2d",cat:"legs",cl:"Legs",xp:80,n:"Bulgarian burn",d:"4×8/side bodyweight Bulgarian split squats, 90\" rest",b:{str:3,end:2}},
+  {id:"t2e",cat:"skill",cl:"Skill",xp:90,n:"Basic transition",d:"Kipping pull-ups 3×3 + explosive chin-over-bar 3×3",b:{skl:4,str:2}},
+  {id:"t2f",cat:"pull",cl:"Pull",xp:85,n:"Explosive pull",d:"4×3 explosive pull-ups + 3×5 slow 5\" negatives",b:{str:3,exp:2}},
+  {id:"t2g",cat:"push",cl:"Push",xp:80,n:"Explosive push",d:"3×5 explosive push-ups + 3×8 close-grip push-ups",b:{exp:2,str:3}},
+  {id:"t2h",cat:"legs",cl:"Legs",xp:85,n:"Single-leg balance",d:"3×3/side assisted single-leg squats + 5×5 squat jumps",b:{skl:2,exp:3}},
+  {id:"t2i",cat:"skill",cl:"Skill",xp:85,n:"Hold pro",d:"4 sets of 20\"+ hold, 60\" rest, lower back always on the ground",b:{skl:3,end:2}},
+  {id:"t2j",cat:"core",cl:"Core",xp:80,n:"Hold + plank",d:"Accumulate 20\" of core hold + 2×45\" plank",b:{skl:3,end:2}},
 ],
 3:[
-  {id:"t3a",cat:"pull",cl:"Pull",xp:100,n:"Pull-up density",d:"EMOM 8 minuti: 4 pull-up ogni minuto, forma impeccabile",b:{str:4,end:3}},
-  {id:"t3b",cat:"push",cl:"Push",xp:100,n:"Ring dips intro",d:"4×5 ring dips + 3×4 pike push-up su rialzo alto",b:{str:4,mob:2}},
-  {id:"t3c",cat:"core",cl:"Core",xp:110,n:"Hold 30",d:"Accumula 30\" tenuta core avanzata in sessione",b:{skl:5,mob:2}},
-  {id:"t3d",cat:"legs",cl:"Gambe",xp:105,n:"Squat strength",d:"4×3/lato squat monopodalico assistito + bilanciere 3×5 a 70%",b:{skl:4,str:3}},
-  {id:"t3e",cat:"skill",cl:"Skill",xp:115,n:"Transizione avanzata",d:"False grip pull-up 4×3 + transizione bassa sulla sbarra 3×2",b:{skl:6,str:3}},
-  {id:"t3f",cat:"pull",cl:"Pull",xp:100,n:"Weighted pull",d:"3×3 pull-up +5kg + 3×5 corpo libero esplosivi, 3' rec",b:{str:6,exp:1}},
-  {id:"t3g",cat:"push",cl:"Push",xp:100,n:"Dips power",d:"3×3 dips esplosivi + 4×6 dips lenti 3\" discesa, 2' rec",b:{exp:3,str:4}},
-  {id:"t3h",cat:"legs",cl:"Gambe",xp:100,n:"Squat loaded",d:"Squat bilanciere 3×5 a 75% 1RM + 3×8 squat jump reattivi",b:{str:5,exp:2}},
-  {id:"t3i",cat:"skill",cl:"Skill",xp:105,n:"Core avanzato",d:"4×5 negative lente (3\" discesa) su panca",b:{skl:4,end:3}},
-  {id:"t3j",cat:"core",cl:"Core",xp:110,n:"Hold 30 + hollow",d:"Tenuta 30\" accumulati + hollow body 4×20\"",b:{skl:5,mob:2}},
+  {id:"t3a",cat:"pull",cl:"Pull",xp:100,n:"Pull-up density",d:"EMOM 8 minutes: 4 pull-ups every minute, flawless form",b:{str:4,end:3}},
+  {id:"t3b",cat:"push",cl:"Push",xp:100,n:"Ring dips intro",d:"4×5 ring dips + 3×4 pike push-ups on a high elevation",b:{str:4,mob:2}},
+  {id:"t3c",cat:"core",cl:"Core",xp:110,n:"Hold 30",d:"Accumulate 30\" of advanced core hold in the session",b:{skl:5,mob:2}},
+  {id:"t3d",cat:"legs",cl:"Legs",xp:105,n:"Squat strength",d:"4×3/side assisted single-leg squats + barbell 3×5 at 70%",b:{skl:4,str:3}},
+  {id:"t3e",cat:"skill",cl:"Skill",xp:115,n:"Advanced transition",d:"False grip pull-ups 4×3 + low transition on the bar 3×2",b:{skl:6,str:3}},
+  {id:"t3f",cat:"pull",cl:"Pull",xp:100,n:"Weighted pull",d:"3×3 pull-ups +5kg + 3×5 explosive bodyweight, 3' rest",b:{str:6,exp:1}},
+  {id:"t3g",cat:"push",cl:"Push",xp:100,n:"Dips power",d:"3×3 explosive dips + 4×6 slow dips with 3\" descent, 2' rest",b:{exp:3,str:4}},
+  {id:"t3h",cat:"legs",cl:"Legs",xp:100,n:"Squat loaded",d:"Barbell squat 3×5 at 75% 1RM + 3×8 reactive squat jumps",b:{str:5,exp:2}},
+  {id:"t3i",cat:"skill",cl:"Skill",xp:105,n:"Advanced core",d:"4×5 slow negatives (3\" descent) on a bench",b:{skl:4,end:3}},
+  {id:"t3j",cat:"core",cl:"Core",xp:110,n:"Hold 30 + hollow",d:"30\" accumulated hold + hollow body 4×20\"",b:{skl:5,mob:2}},
 ],
 4:[
-  {id:"t4a",cat:"pull",cl:"Pull",xp:130,n:"Weighted pull pro",d:"4×3 pull-up +10kg + 3×5 corpo libero esplosivi, 3' rec",b:{str:6,exp:2}},
-  {id:"t4b",cat:"push",cl:"Push",xp:130,n:"Ring dips strength",d:"5×5 ring dips + 3×3 HSPU assistiti a muro",b:{str:6,mob:3}},
-  {id:"t4c",cat:"core",cl:"Core",xp:135,n:"Hold 60",d:"Accumula 60\" tenuta core avanzata in sessione",b:{skl:6,mob:3}},
-  {id:"t4d",cat:"legs",cl:"Gambe",xp:130,n:"Volume avanzato",d:"5×5/lato squat monopodalico + 3×5 Bulgarian con +10kg",b:{skl:5,str:4}},
-  {id:"t4e",cat:"skill",cl:"Skill",xp:145,n:"Attempt session",d:"5 tentativi skill obiettivo + 4×3 pull-up esplosivi finisher",b:{skl:7,str:4}},
-  {id:"t4f",cat:"pull",cl:"Pull",xp:125,n:"Volume king",d:"EMOM 12': 5 pull-up ogni minuto, stop 1\" in alto e in basso",b:{str:5,end:5}},
-  {id:"t4g",cat:"push",cl:"Push",xp:130,n:"Planche lean",d:"Planche lean 4×10\" + 3×6 dips +5kg, 2' rec",b:{skl:4,str:4}},
-  {id:"t4h",cat:"legs",cl:"Gambe",xp:130,n:"Squat heavy",d:"Squat bilanciere 3×3 a 85% 1RM + 3×5 Bulgarian +10kg",b:{str:7,exp:2}},
-  {id:"t4i",cat:"skill",cl:"Skill",xp:140,n:"Front lever tuck",d:"Tuck front lever 4×8\" + 3×4 pull-up +5kg",b:{skl:6,str:5}},
-  {id:"t4j",cat:"core",cl:"Core",xp:135,n:"Dragon flag",d:"4×3 dragon flag complete su panca + core 20\" finisher",b:{skl:5,end:4}},
+  {id:"t4a",cat:"pull",cl:"Pull",xp:130,n:"Weighted pull pro",d:"4×3 pull-ups +10kg + 3×5 explosive bodyweight, 3' rest",b:{str:6,exp:2}},
+  {id:"t4b",cat:"push",cl:"Push",xp:130,n:"Ring dips strength",d:"5×5 ring dips + 3×3 wall-assisted HSPU",b:{str:6,mob:3}},
+  {id:"t4c",cat:"core",cl:"Core",xp:135,n:"Hold 60",d:"Accumulate 60\" of advanced core hold in the session",b:{skl:6,mob:3}},
+  {id:"t4d",cat:"legs",cl:"Legs",xp:130,n:"Advanced volume",d:"5×5/side single-leg squats + 3×5 Bulgarian with +10kg",b:{skl:5,str:4}},
+  {id:"t4e",cat:"skill",cl:"Skill",xp:145,n:"Attempt session",d:"5 attempts at the target skill + 4×3 explosive pull-ups finisher",b:{skl:7,str:4}},
+  {id:"t4f",cat:"pull",cl:"Pull",xp:125,n:"Volume king",d:"EMOM 12': 5 pull-ups every minute, 1\" pause at top and bottom",b:{str:5,end:5}},
+  {id:"t4g",cat:"push",cl:"Push",xp:130,n:"Planche lean",d:"Planche lean 4×10\" + 3×6 dips +5kg, 2' rest",b:{skl:4,str:4}},
+  {id:"t4h",cat:"legs",cl:"Legs",xp:130,n:"Squat heavy",d:"Barbell squat 3×3 at 85% 1RM + 3×5 Bulgarian +10kg",b:{str:7,exp:2}},
+  {id:"t4i",cat:"skill",cl:"Skill",xp:140,n:"Front lever tuck",d:"Tuck front lever 4×8\" + 3×4 pull-ups +5kg",b:{skl:6,str:5}},
+  {id:"t4j",cat:"core",cl:"Core",xp:135,n:"Dragon flag",d:"4×3 full dragon flags on a bench + 20\" core finisher",b:{skl:5,end:4}},
 ],
 5:[
-  {id:"t5a",cat:"pull",cl:"Pull",xp:160,n:"Strength peak",d:"5×3 pull-up +15kg + 3×3 negative lente 8\", 4' rec",b:{str:8,exp:2}},
-  {id:"t5b",cat:"push",cl:"Push",xp:160,n:"HSPU push",d:"5×3 HSPU a muro liberi + 4×4 ring dips +5kg",b:{str:7,mob:4}},
-  {id:"t5c",cat:"core",cl:"Core",xp:165,n:"Elite hold",d:"Tenuta 3×15\" + straddle attempt 3×5\"",b:{skl:7,mob:5}},
-  {id:"t5d",cat:"legs",cl:"Gambe",xp:165,n:"Squat elite",d:"Squat monopodalico bulgaro 4×4/lato + bilanciere 3×3 pesante",b:{skl:6,str:7}},
-  {id:"t5e",cat:"skill",cl:"Skill",xp:180,n:"Skill sets",d:"3 serie da 2 rep skill obiettivo + front lever 3×10\"",b:{skl:9,str:5}},
+  {id:"t5a",cat:"pull",cl:"Pull",xp:160,n:"Strength peak",d:"5×3 pull-ups +15kg + 3×3 slow 8\" negatives, 4' rest",b:{str:8,exp:2}},
+  {id:"t5b",cat:"push",cl:"Push",xp:160,n:"HSPU push",d:"5×3 freestanding wall HSPU + 4×4 ring dips +5kg",b:{str:7,mob:4}},
+  {id:"t5c",cat:"core",cl:"Core",xp:165,n:"Elite hold",d:"3×15\" hold + straddle attempt 3×5\"",b:{skl:7,mob:5}},
+  {id:"t5d",cat:"legs",cl:"Legs",xp:165,n:"Squat elite",d:"Bulgarian single-leg squat 4×4/side + heavy barbell 3×3",b:{skl:6,str:7}},
+  {id:"t5e",cat:"skill",cl:"Skill",xp:180,n:"Skill sets",d:"3 sets of 2 reps of the target skill + front lever 3×10\"",b:{skl:9,str:5}},
 ]};
 
 const LINES=[
  {id:"lsit",name:"L-sit",icon:"🧘",stat:"skl",color:"#7F77DD",
   gates:[
-   {id:"lsit_g1",reqLv:1,name:"Sblocco: fondamenta L-sit",goal:"Hollow body hold 20\"+ e tuck L-sit 10\"+ in singola tenuta",xp:90,
-    unlock:[{id:"lsit_u1a",cat:"skill",cl:"L-sit",xp:75,n:"Tuck L-sit hold",d:"5 tentativi tuck L-sit, max durata, 90\" rec",b:{skl:3,mob:1}},
-            {id:"lsit_u1b",cat:"core",cl:"L-sit",xp:70,n:"Compressione anche",d:"3×10 knee raise da hang + 3×8\" tuck hold",b:{skl:2,end:1}}]},
-   {id:"lsit_g2",reqLv:10,name:"Sblocco: L-sit intermedio",goal:"Tuck L-sit 15\"+ mantenuto con controllo",xp:140,
-    unlock:[{id:"lsit_u2a",cat:"skill",cl:"L-sit",xp:100,n:"One leg extension",d:"4×8\" L-sit con una gamba tesa, alternare lato",b:{skl:4,mob:2}},
-            {id:"lsit_u2b",cat:"skill",cl:"L-sit",xp:95,n:"Straddle prep",d:"4×6\" straddle L-sit attempt su parallele",b:{skl:3,mob:2}}]},
-   {id:"lsit_g3",reqLv:22,name:"Sblocco: L-sit avanzato",goal:"L-sit parziale (una gamba tesa) tenuto 5\"+",xp:190,
-    unlock:[{id:"lsit_u3a",cat:"skill",cl:"L-sit",xp:130,n:"L-sit gambe tese",d:"6×5\" L-sit gambe tese complete, 90\" rec",b:{skl:6,mob:2}},
-            {id:"lsit_u3b",cat:"core",cl:"L-sit",xp:125,n:"L-sit accumulo",d:"Accumula 30\" totali di L-sit gambe tese in sessione",b:{skl:5,end:2}}]}
+   {id:"lsit_g1",reqLv:1,name:"Unlock: L-sit foundations",goal:"Hollow body hold 20\"+ and tuck L-sit 10\"+ in a single hold",xp:90,
+    unlock:[{id:"lsit_u1a",cat:"skill",cl:"L-sit",xp:75,n:"Tuck L-sit hold",d:"5 attempts at tuck L-sit, max duration, 90\" rest",b:{skl:3,mob:1}},
+            {id:"lsit_u1b",cat:"core",cl:"L-sit",xp:70,n:"Hip compression",d:"3×10 knee raises from a hang + 3×8\" tuck hold",b:{skl:2,end:1}}]},
+   {id:"lsit_g2",reqLv:10,name:"Unlock: intermediate L-sit",goal:"Tuck L-sit held 15\"+ with control",xp:140,
+    unlock:[{id:"lsit_u2a",cat:"skill",cl:"L-sit",xp:100,n:"One leg extension",d:"4×8\" L-sit with one leg extended, alternate sides",b:{skl:4,mob:2}},
+            {id:"lsit_u2b",cat:"skill",cl:"L-sit",xp:95,n:"Straddle prep",d:"4×6\" straddle L-sit attempt on parallettes",b:{skl:3,mob:2}}]},
+   {id:"lsit_g3",reqLv:22,name:"Unlock: advanced L-sit",goal:"Partial L-sit (one leg extended) held 5\"+",xp:190,
+    unlock:[{id:"lsit_u3a",cat:"skill",cl:"L-sit",xp:130,n:"Straight-leg L-sit",d:"6×5\" full straight-leg L-sit, 90\" rest",b:{skl:6,mob:2}},
+            {id:"lsit_u3b",cat:"core",cl:"L-sit",xp:125,n:"L-sit accumulation",d:"Accumulate 30\" total of straight-leg L-sit in the session",b:{skl:5,end:2}}]}
   ]},
  {id:"muscleup",name:"Muscle-up",icon:"🏆",stat:"str",color:"#E24B4A",
   gates:[
-   {id:"mu_g1",reqLv:3,name:"Sblocco: fondamenta muscle-up",goal:"5 pull-up puliti consecutivi, mento sopra la sbarra",xp:100,
-    unlock:[{id:"mu_u1a",cat:"pull",cl:"Muscle-up",xp:90,n:"False grip hang",d:"5×10\" false grip dead hang + 3×5 chest-to-bar pull-up",b:{str:4,skl:1}},
-            {id:"mu_u1b",cat:"pull",cl:"Muscle-up",xp:85,n:"Explosive pull",d:"4×3 pull-up esplosivi, mento ben oltre la sbarra",b:{str:3,exp:2}}]},
-   {id:"mu_g2",reqLv:14,name:"Sblocco: transizione",goal:"False grip pull-up 3×3 con presa falsa stabile",xp:160,
-    unlock:[{id:"mu_u2a",cat:"skill",cl:"Muscle-up",xp:130,n:"Transizione bassa",d:"4×3 transizioni basse su sbarra o anelli con appoggio",b:{skl:5,str:3}},
-            {id:"mu_u2b",cat:"skill",cl:"Muscle-up",xp:125,n:"Dip lockout",d:"4×5 dip lockout da posizione transizione",b:{str:4,skl:2}}]},
-   {id:"mu_g3",reqLv:28,name:"Sblocco: quasi al muscle-up",goal:"Muscle-up assistito (banda o slancio) 3 reps pulite",xp:210,
-    unlock:[{id:"mu_u3a",cat:"skill",cl:"Muscle-up",xp:170,n:"Muscle-up negativo",d:"4×3 discese controllate 5\" da sopra la sbarra",b:{skl:7,str:4}},
-            {id:"mu_u3b",cat:"skill",cl:"Muscle-up",xp:165,n:"Muscle-up attempt",d:"6 tentativi muscle-up strict, focus sulla transizione",b:{skl:8,str:3}}]}
+   {id:"mu_g1",reqLv:3,name:"Unlock: muscle-up foundations",goal:"5 consecutive clean pull-ups, chin above the bar",xp:100,
+    unlock:[{id:"mu_u1a",cat:"pull",cl:"Muscle-up",xp:90,n:"False grip hang",d:"5×10\" false grip dead hang + 3×5 chest-to-bar pull-ups",b:{str:4,skl:1}},
+            {id:"mu_u1b",cat:"pull",cl:"Muscle-up",xp:85,n:"Explosive pull",d:"4×3 explosive pull-ups, chin well above the bar",b:{str:3,exp:2}}]},
+   {id:"mu_g2",reqLv:14,name:"Unlock: transition",goal:"False grip pull-ups 3×3 with a stable false grip",xp:160,
+    unlock:[{id:"mu_u2a",cat:"skill",cl:"Muscle-up",xp:130,n:"Low transition",d:"4×3 low transitions on bar or rings with support",b:{skl:5,str:3}},
+            {id:"mu_u2b",cat:"skill",cl:"Muscle-up",xp:125,n:"Dip lockout",d:"4×5 dip lockouts from the transition position",b:{str:4,skl:2}}]},
+   {id:"mu_g3",reqLv:28,name:"Unlock: almost there",goal:"Assisted muscle-up (band or kip) 3 clean reps",xp:210,
+    unlock:[{id:"mu_u3a",cat:"skill",cl:"Muscle-up",xp:170,n:"Negative muscle-up",d:"4×3 controlled 5\" descents from above the bar",b:{skl:7,str:4}},
+            {id:"mu_u3b",cat:"skill",cl:"Muscle-up",xp:165,n:"Muscle-up attempt",d:"6 strict muscle-up attempts, focus on the transition",b:{skl:8,str:3}}]}
   ]},
  {id:"pistol",name:"Pistol squat",icon:"🎯",stat:"skl",color:"#1D9E75",
   gates:[
-   {id:"pi_g1",reqLv:1,name:"Sblocco: fondamenta pistol",goal:"Air squat 20 reps pulite + buona mobilità di caviglia",xp:90,
-    unlock:[{id:"pi_u1a",cat:"legs",cl:"Pistol",xp:75,n:"Pistol assistito",d:"4×5/lato pistol assistito a montante o TRX",b:{skl:3,mob:2}},
-            {id:"pi_u1b",cat:"legs",cl:"Pistol",xp:70,n:"Ankle & box squat",d:"3×8/lato box pistol su rialzo alto + ankle mobility",b:{mob:3,skl:1}}]},
-   {id:"pi_g2",reqLv:10,name:"Sblocco: equilibrio",goal:"Pistol assistito 5 reps/lato con presa minima",xp:140,
-    unlock:[{id:"pi_u2a",cat:"legs",cl:"Pistol",xp:100,n:"Pistol su rialzo basso",d:"4×4/lato pistol su rialzo 15cm, mani libere",b:{skl:4,str:3}},
-            {id:"pi_u2b",cat:"legs",cl:"Pistol",xp:95,n:"Negative pistol",d:"4×3/lato discesa controllata 4\" in pistol",b:{skl:3,str:3}}]},
-   {id:"pi_g3",reqLv:22,name:"Sblocco: quasi al pistol",goal:"Negative pistol controllata 3 reps/lato, discesa 4\"+",xp:190,
-    unlock:[{id:"pi_u3a",cat:"legs",cl:"Pistol",xp:130,n:"Pistol libero",d:"5×3/lato pistol squat completo a corpo libero",b:{skl:6,str:5}},
-            {id:"pi_u3b",cat:"legs",cl:"Pistol",xp:125,n:"Pistol power",d:"3×3/lato pistol + salto in uscita, focus esplosività",b:{skl:4,exp:3}}]}
+   {id:"pi_g1",reqLv:1,name:"Unlock: pistol foundations",goal:"20 clean air squat reps + good ankle mobility",xp:90,
+    unlock:[{id:"pi_u1a",cat:"legs",cl:"Pistol",xp:75,n:"Assisted pistol",d:"4×5/side pistol assisted by a pole or TRX",b:{skl:3,mob:2}},
+            {id:"pi_u1b",cat:"legs",cl:"Pistol",xp:70,n:"Ankle & box squat",d:"3×8/side box pistol on a high box + ankle mobility",b:{mob:3,skl:1}}]},
+   {id:"pi_g2",reqLv:10,name:"Unlock: balance",goal:"Assisted pistol 5 reps/side with minimal support",xp:140,
+    unlock:[{id:"pi_u2a",cat:"legs",cl:"Pistol",xp:100,n:"Pistol on a low box",d:"4×4/side pistol on a 15cm box, hands free",b:{skl:4,str:3}},
+            {id:"pi_u2b",cat:"legs",cl:"Pistol",xp:95,n:"Negative pistol",d:"4×3/side controlled 4\" descent into a pistol",b:{skl:3,str:3}}]},
+   {id:"pi_g3",reqLv:22,name:"Unlock: almost there",goal:"Controlled negative pistol, 3 reps/side, 4\"+ descent",xp:190,
+    unlock:[{id:"pi_u3a",cat:"legs",cl:"Pistol",xp:130,n:"Free pistol",d:"5×3/side full bodyweight pistol squat",b:{skl:6,str:5}},
+            {id:"pi_u3b",cat:"legs",cl:"Pistol",xp:125,n:"Pistol power",d:"3×3/side pistol + jump out, focus on explosiveness",b:{skl:4,exp:3}}]}
   ]}
 ];
 
 const MOBILITY_POOL=[
-  {id:"mob_w1",cat:"mobility",cl:"Mobilità",xp:70,n:"Reset spalle e anche",d:"10 min: shoulder dislocate con bastone 3×10 + hip flexor stretch 2×45\"/lato + thoracic rotation 2×8/lato",b:{mob:4}},
-  {id:"mob_w2",cat:"mobility",cl:"Mobilità",xp:70,n:"Mobilità da terra",d:"10 min: 90/90 hip switch 2×8/lato + couch stretch 2×60\"/lato + cat-camel 2×10",b:{mob:4}},
-  {id:"mob_w3",cat:"mobility",cl:"Mobilità",xp:70,n:"Caviglie e polsi",d:"10 min: ankle rock 3×15/lato + mobilità e stretch dei polsi 3×10 + calf stretch 2×45\"/lato",b:{mob:4}},
-  {id:"mob_w4",cat:"mobility",cl:"Mobilità",xp:70,n:"Stretching totale",d:"12 min full body: hamstring, quadricipiti, dorsali, pettorali, 45\" per lato",b:{mob:4}},
-  {id:"mob_w5",cat:"mobility",cl:"Mobilità",xp:70,n:"Colonna e core",d:"10 min: thread the needle 2×6/lato + child's pose esteso 2×60\" + cobra stretch 2×30\"",b:{mob:4}},
+  {id:"mob_w1",cat:"mobility",cl:"Mobility",xp:70,n:"Shoulder & hip reset",d:"10 min: stick shoulder dislocates 3×10 + hip flexor stretch 2×45\"/side + thoracic rotation 2×8/side",b:{mob:4}},
+  {id:"mob_w2",cat:"mobility",cl:"Mobility",xp:70,n:"Ground mobility",d:"10 min: 90/90 hip switch 2×8/side + couch stretch 2×60\"/side + cat-camel 2×10",b:{mob:4}},
+  {id:"mob_w3",cat:"mobility",cl:"Mobility",xp:70,n:"Ankles & wrists",d:"10 min: ankle rocks 3×15/side + wrist mobility & stretch 3×10 + calf stretch 2×45\"/side",b:{mob:4}},
+  {id:"mob_w4",cat:"mobility",cl:"Mobility",xp:70,n:"Full body stretch",d:"12 min full body: hamstrings, quads, lats, chest, 45\" per side",b:{mob:4}},
+  {id:"mob_w5",cat:"mobility",cl:"Mobility",xp:70,n:"Spine & core",d:"10 min: thread the needle 2×6/side + extended child's pose 2×60\" + cobra stretch 2×30\"",b:{mob:4}},
 ];
 function weekKey(dateStr){
   const d=new Date(dateStr+"T00:00:00");
@@ -397,7 +397,7 @@ function updHdr(){
   const pct=maxed?100:Math.min((inLevel/step)*100,100);
   document.getElementById("hl").textContent=`Lv.${l}`;
   document.getElementById("hx").textContent=S.xp;
-  document.getElementById("hxt").textContent=maxed?"Livello massimo raggiunto":`${inLevel}/${step} XP → Lv.${l+1}`;
+  document.getElementById("hxt").textContent=maxed?"Max level reached":`${inLevel}/${step} XP → Lv.${l+1}`;
   document.getElementById("hbar").style.width=Math.round(pct)+"%";
 }
 function rStats(){
@@ -413,7 +413,7 @@ function rStats(){
 }
 function rLogShort(){
   const el=document.getElementById("log-short");
-  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Completa la tua prima quest<br>per iniziare lo storico!</div>`;return;}
+  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Complete your first quest<br>to start your history!</div>`;return;}
   el.innerHTML=S.log.slice(0,8).map(e=>`<div class="lrow"><div><div class="lname">${e.q}</div><div class="ldate">${e.d}</div></div><div class="lxp">+${e.x} XP</div></div>`).join("");
 }
 function rQuests(){
@@ -424,12 +424,12 @@ function rQuests(){
     <div class="gcard"><div class="gi">
       <div class="gtop"><span class="gicon">${g.lineIcon}</span><span class="gtitle">${g.name}</span><span class="gxp">+${g.xp} XP</span></div>
       <div class="gline">${g.lineName}</div>
-      <div class="ggoal"><b>Obiettivo:</b> ${g.goal}</div>
-      <button class="gbtn" onclick="doGate('${g.id}')">Ho raggiunto l'obiettivo</button>
+      <div class="ggoal"><b>Goal:</b> ${g.goal}</div>
+      <button class="gbtn" onclick="doGate('${g.id}')">I've reached this goal</button>
     </div></div>`).join("");
   const done=S.todayQuests.length>0&&S.todayQuests.every(q=>S.completedToday.includes(q.id));
   document.getElementById("alldone").style.display=done?"block":"none";
-  if(!S.todayQuests.length){document.getElementById("qlist").innerHTML=`<div class="empty">Caricamento...</div>`;return;}
+  if(!S.todayQuests.length){document.getElementById("qlist").innerHTML=`<div class="empty">Loading...</div>`;return;}
   document.getElementById("qlist").innerHTML=S.todayQuests.map(q=>{
     const dn=S.completedToday.includes(q.id);
     const cc=CC[q.cat]||{bg:"#f3f4f6",c:"#444"};
@@ -438,10 +438,10 @@ function rQuests(){
       <div class="qtop"><span class="qcat" style="background:${cc.bg};color:${cc.c}">${q.cl.toUpperCase()}</span><span class="qtitle">${q.n}</span><span class="qxp">+${q.xp} XP</span></div>
       <div class="qdesc">${q.d}</div>
       <div class="qboosts">${bs}</div>
-      ${dn?`<button class="qbtn done-btn">Completata!</button>`:`<div class="qfeedback">
-        <button class="qfbtn qfb-easy" onclick="doQ('${q.id}',1)">Facile</button>
-        <button class="qfbtn qfb-mid" onclick="doQ('${q.id}',0)">Giusto</button>
-        <button class="qfbtn qfb-hard" onclick="doQ('${q.id}',-1)">Difficile</button>
+      ${dn?`<button class="qbtn done-btn">Completed!</button>`:`<div class="qfeedback">
+        <button class="qfbtn qfb-easy" onclick="doQ('${q.id}',1)">Easy</button>
+        <button class="qfbtn qfb-mid" onclick="doQ('${q.id}',0)">Right</button>
+        <button class="qfbtn qfb-hard" onclick="doQ('${q.id}',-1)">Hard</button>
       </div>`}
     </div></div>`;
   }).join("");
@@ -453,12 +453,12 @@ function rSkills(){
       const done=S.completedGates.includes(g.id);
       const prevOk=i===0||S.completedGates.includes(line.gates[i-1].id);
       const avail=!done&&prevOk&&l>=g.reqLv;
-      const status=done?"Sbloccata":avail?"Disponibile ora":"Bloccata";
+      const status=done?"Unlocked":avail?"Available now":"Locked";
       const color=done?"#10B981":avail?"#F59E0B":"#9CA3AF";
       return `<div class="gnode">
         <div class="gnstatus" style="color:${color}">${status}</div>
         <div class="gnname">${g.name}</div>
-        <div class="gnreq">${done||avail?("Obiettivo: "+g.goal):("Richiede livello "+g.reqLv)}</div>
+        <div class="gnreq">${done||avail?("Goal: "+g.goal):("Requires level "+g.reqLv)}</div>
       </div>`;
     }).join("");
     return `<div class="lineblock">
@@ -469,7 +469,7 @@ function rSkills(){
 }
 function rLogFull(){
   const el=document.getElementById("log-full");
-  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Nessun allenamento ancora.<br>Completa le tue prime quest!</div>`;return;}
+  if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">No workouts yet.<br>Complete your first quests!</div>`;return;}
   el.innerHTML=S.log.map(e=>`<div class="lrow"><div><div class="lname">${e.q}</div><div class="ldate">${e.d}</div></div><div class="lxp">+${e.x} XP</div></div>`).join("");
 }
 function render(){
@@ -500,7 +500,7 @@ function doQ(qid,fb){
   S.log.unshift({d:today(),q:q.n,x:q.xp});
   S.log=S.log.slice(0,150);
   save();
-  if(nl>pl)toast("Level up! Sei ora Lv."+nl,"Quest più impegnative disponibili da ora!");
+  if(nl>pl)toast("Level up! You're now Lv."+nl,"Tougher quests available from now on!");
   else toast("+"+q.xp+" XP – "+q.n,Object.entries(q.b).map(([k,v])=>"+"+v+" "+SC[k]?.l).join(" · "));
   rQuests();updHdr();
 }
@@ -513,9 +513,9 @@ function doGate(gid){
   S.stats[line.stat]=Math.min(100,(S.stats[line.stat]||0)+6);
   S.completedGates.push(gid);
   if(!S.log)S.log=[];
-  S.log.unshift({d:today(),q:"Sblocco: "+gate.name,x:gate.xp});
+  S.log.unshift({d:today(),q:"Unlock: "+gate.name,x:gate.xp});
   save();
-  toast("Skill sbloccata: "+line.name,"Nuovi esercizi "+line.name+" entrano in rotazione da domani.");
+  toast("Skill unlocked: "+line.name,"New "+line.name+" exercises enter rotation from tomorrow.");
   rQuests();rSkills();updHdr();
 }
 function openModal(){
@@ -532,20 +532,20 @@ function saveStats(){
   save();
   document.getElementById("modal").classList.remove("open");
   render();
-  toast("Statistiche aggiornate","I nuovi valori sono salvati");
+  toast("Stats updated","New values saved");
 }
 function exportBackup(){
   const data=JSON.stringify(S);
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(data).then(()=>{
-      toast("Backup copiato","Incollalo in Note per salvarlo prima di aggiornare l'app");
-    }).catch(()=>{prompt("Copia questo testo e salvalo:",data);});
+      toast("Backup copied","Paste it into Notes to save it before updating the app");
+    }).catch(()=>{prompt("Copy this text and save it:",data);});
   }else{
-    prompt("Copia questo testo e salvalo:",data);
+    prompt("Copy this text and save it:",data);
   }
 }
 function importBackup(){
-  const txt=prompt("Incolla qui il testo del backup:");
+  const txt=prompt("Paste your backup text here:");
   if(!txt)return;
   try{
     const parsed=JSON.parse(txt);
@@ -556,13 +556,13 @@ function importBackup(){
     if(!S.log)S.log=[];
     S.lastDate="";
     checkDay();render();
-    toast("Backup importato","I tuoi progressi sono stati ripristinati");
+    toast("Backup imported","Your progress has been restored");
   }catch(e){
-    toast("Errore","Il testo incollato non è un backup valido");
+    toast("Error","The pasted text isn't a valid backup");
   }
 }
 function resetAll(){
-  if(!confirm("Sei sicuro? Tutti i progressi verranno cancellati."))return;
+  if(!confirm("Are you sure? All progress will be deleted."))return;
   S=JSON.parse(JSON.stringify(DEF));checkDay();save();render();
 }
 load();
