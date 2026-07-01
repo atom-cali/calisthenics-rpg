@@ -24,25 +24,27 @@
 }}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t1);overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh}
-.hdr{background:var(--blue);padding:max(48px,calc(env(safe-area-inset-top)+12px)) max(18px,calc(env(safe-area-inset-left) + 14px)) 14px max(18px,calc(env(safe-area-inset-right) + 14px));flex-shrink:0}
-.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.hdr-lbl{font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:3px}
-.hdr-lvl{font-size:20px;font-weight:600;color:#fff}
-.hdr-lvl span{font-size:14px;font-weight:400;color:rgba(255,255,255,.65)}
-.xp-badge{background:rgba(255,255,255,.12);border-radius:10px;padding:6px 12px;text-align:center;min-width:72px}
-.xp-badge-num{font-size:16px;font-weight:600;color:#FCD34D}
-.xp-badge-lbl{font-size:9px;color:rgba(255,255,255,.45)}
-.xp-bar-row{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.45);margin-bottom:4px}
-.xp-bg{background:rgba(255,255,255,.15);border-radius:99px;height:6px;overflow:hidden}
-.xp-fill{background:#FCD34D;height:100%;border-radius:99px;transition:width .6s ease}
-.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px max(18px,env(safe-area-inset-left)) 12px max(18px,env(safe-area-inset-right))}
+.hdr{background:linear-gradient(160deg,var(--blue),var(--blue-mid));padding:max(48px,calc(env(safe-area-inset-top)+12px)) max(22px,calc(env(safe-area-inset-left) + 18px)) 18px max(22px,calc(env(safe-area-inset-right) + 18px));flex-shrink:0}
+.hdr-top{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.lvl-badge{width:62px;height:62px;border-radius:16px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.lvl-badge-num{font-size:25px;font-weight:700;color:#fff;line-height:1}
+.lvl-badge-lbl{font-size:8px;font-weight:600;letter-spacing:.12em;color:rgba(255,255,255,.6);margin-top:3px}
+.hdr-meta{flex:1;min-width:0}
+.hdr-lbl{font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:7px}
+.xp-total-row{display:flex;align-items:baseline;gap:6px}
+.xp-total-num{font-size:23px;font-weight:700;color:#FCD34D}
+.xp-total-lbl{font-size:11px;color:rgba(255,255,255,.55);font-weight:500}
+.xp-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.6);margin-bottom:7px;font-weight:500}
+.xp-bg{background:rgba(255,255,255,.16);border-radius:99px;height:12px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.2)}
+.xp-fill{background:linear-gradient(90deg,#F59E0B,#FCD34D);height:100%;border-radius:99px;transition:width .6s ease;box-shadow:0 0 10px rgba(252,211,77,.55)}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px max(22px,env(safe-area-inset-left)) 16px max(22px,env(safe-area-inset-right))}
 .tab-pane{display:none}.tab-pane.active{display:block}
 .bnav{background:var(--surface);border-top:.5px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);flex-shrink:0}
 .nbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px 11px;border:none;background:transparent;cursor:pointer;color:var(--t3);font-size:10px;gap:3px;min-height:56px}
 .nbtn.active{color:var(--blue)}
 .nbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .card{background:var(--surface);border-radius:14px;border:1px solid var(--border);box-shadow:var(--card-shadow);margin-bottom:10px;overflow:hidden}
-.cp{padding:14px}
+.cp{padding:18px}
 .sec{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;margin-bottom:10px;margin-top:4px}
 .srow{display:flex;align-items:center;gap:12px;margin-bottom:9px}
 .sico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
@@ -53,7 +55,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 .qcard{background:var(--surface);border:1px solid var(--border);box-shadow:var(--card-shadow);border-radius:16px;margin-bottom:12px;overflow:hidden}
 .qcard.done{border-color:#86EFAC;background:#F0FDF4}
 @media(prefers-color-scheme:dark){.qcard.done{background:#052E16;border-color:#166534}}
-.qi{padding:14px}
+.qi{padding:18px}
 .qtop{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .qcat{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}
 .qtitle{flex:1;font-size:15px;font-weight:600;color:var(--t1)}
@@ -73,7 +75,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 .qfb-hard{background:#FEE2E2;color:#7F1D1D}
 .gcard{background:linear-gradient(0deg,#FFFBEB,#FFFBEB);border:1.5px solid #FCD34D;box-shadow:var(--card-shadow);border-radius:16px;margin-bottom:12px;overflow:hidden}
 @media(prefers-color-scheme:dark){.gcard{background:#78350F22;border-color:#92400E}}
-.gi{padding:14px}
+.gi{padding:18px}
 .gtop{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .gicon{font-size:18px}
 .gtitle{flex:1;font-size:15px;font-weight:600;color:#92400E}
@@ -86,7 +88,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 .gbtn:active{transform:scale(.98)}
 .lineblock{margin-bottom:16px}
 .linehdr{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.gnode{background:var(--surface);border:1px solid var(--border);box-shadow:var(--card-shadow);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.gnode{background:var(--surface);border:1px solid var(--border);box-shadow:var(--card-shadow);border-radius:12px;padding:14px 16px;margin-bottom:8px}
 .gnstatus{font-size:11px;font-weight:600;margin-bottom:3px}
 .gnname{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:2px}
 .gnreq{font-size:11px;color:var(--t3);line-height:1.4}
@@ -132,10 +134,13 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 
 <div class="hdr">
   <div class="hdr-top">
-    <div><div class="hdr-lbl">TOMMY · CALISTHENICS RPG</div><div class="hdr-lvl" id="hl">Lv.1</div></div>
-    <div class="xp-badge"><div class="xp-badge-num" id="hx">0</div><div class="xp-badge-lbl">TOTAL XP</div></div>
+    <div class="lvl-badge"><div class="lvl-badge-num" id="hl">1</div><div class="lvl-badge-lbl">LEVEL</div></div>
+    <div class="hdr-meta">
+      <div class="hdr-lbl">TOMMY · CALISTHENICS RPG</div>
+      <div class="xp-total-row"><span class="xp-total-num" id="hx">0</span><span class="xp-total-lbl">total XP</span></div>
+    </div>
   </div>
-  <div class="xp-bar-row"><span>Level progress</span><span id="hxt">0/90 XP → Lv.2</span></div>
+  <div class="xp-bar-labels"><span>Level progress</span><span id="hxt">0/90 XP → Lv.2</span></div>
   <div class="xp-bg"><div class="xp-fill" id="hbar" style="width:0%"></div></div>
 </div>
 
@@ -160,6 +165,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
     <div style="margin-bottom:12px;margin-top:2px">
       <div class="sec" style="margin:0">Today's quests</div>
       <div style="font-size:11px;color:var(--t3);margin-top:2px" id="qdate"></div>
+      <div id="wtypebadge" style="display:inline-block;margin-top:6px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:var(--blue-lt);color:#1E40AF"></div>
     </div>
     <div class="infobox">After each quest, rate how it felt: your answers gradually calibrate the difficulty of future ones. Every week you'll also get a dedicated mobility quest. Unlock challenges stay active until you clear them.</div>
     <div id="glist"></div>
@@ -346,29 +352,51 @@ function weekKey(dateStr){
   return d.getFullYear()+"-"+Math.floor(dayOfYear/7);
 }
 
-const DEF={xp:0,stats:{str:12,end:15,exp:10,mob:8,skl:5},lastDate:"",todayQuests:[],completedToday:[],completedGates:[],log:[],calib:0,lastMobilityWeek:""};
+const DEF={xp:0,stats:{str:12,end:15,exp:10,mob:8,skl:5},lastDate:"",todayQuests:[],completedToday:[],completedGates:[],log:[],calib:0,lastMobilityWeek:"",todayWorkoutType:""};
 let S=JSON.parse(JSON.stringify(DEF));
 let tab="char";
 
 function today(){return new Date().toISOString().split("T")[0];}
 
+const WORKOUT_TYPES=[
+  {id:"pull",label:"Pull day",cats:["pull","core","skill"]},
+  {id:"push",label:"Push day",cats:["push","skill"]},
+  {id:"legs",label:"Legs day",cats:["legs","skill"]},
+  {id:"full",label:"Full body day",cats:null}
+];
+function workoutTypeForDate(dateStr){
+  const d=new Date(dateStr+"T00:00:00");
+  const map={1:"pull",2:"push",3:"legs",4:"full",5:"pull",6:"push",0:"legs"};
+  return WORKOUT_TYPES.find(w=>w.id===map[d.getDay()]);
+}
+function targetCount(level){
+  const t=tierOf(level);
+  return t<=2?2:t===3?3:t===4?4:5;
+}
 function buildPool(level,completedGates){
   const base=[...(P[tierOf(level)]||P[1])];
   const bonus=[];
   LINES.forEach(line=>{line.gates.forEach(g=>{if(completedGates.includes(g.id))bonus.push(...g.unlock);});});
   return [...base,...bonus];
 }
-function pickQ(level,seed,completedGates){
+function pickQ(level,seed,completedGates,dateStr){
   const pool=buildPool(level,completedGates);
+  const wt=workoutTypeForDate(dateStr);
+  const target=targetCount(level);
   const arr=[...pool].sort((a,b)=>{
     const ha=a.id.split("").reduce((s,c)=>s+c.charCodeAt(0),0);
     const hb=b.id.split("").reduce((s,c)=>s+c.charCodeAt(0),0);
     return((ha*seed)%31)-((hb*seed)%31);
   });
-  const out=[],cats=new Set();
-  for(const q of arr){if(!cats.has(q.cat)&&out.length<3){out.push(q);cats.add(q.cat);}}
-  for(const q of arr){if(out.length>=3)break;if(!out.find(p=>p.id===q.id))out.push(q);}
-  return out.slice(0,3);
+  let out=[];
+  if(wt.cats){
+    for(const q of arr){if(out.length>=target)break;if(wt.cats.includes(q.cat)&&!out.find(o=>o.id===q.id))out.push(q);}
+  }else{
+    const cats=new Set();
+    for(const q of arr){if(out.length>=target)break;if(!cats.has(q.cat)){out.push(q);cats.add(q.cat);}}
+  }
+  if(out.length<target){for(const q of arr){if(out.length>=target)break;if(!out.find(o=>o.id===q.id))out.push(q);}}
+  return {items:out.slice(0,target),type:wt};
 }
 function nextGate(line,completedGates){
   for(let i=0;i<line.gates.length;i++){if(!completedGates.includes(line.gates[i].id))return {gate:line.gates[i],index:i};}
@@ -389,13 +417,16 @@ function load(){
   if(!S.completedGates)S.completedGates=[];
   if(typeof S.calib!=="number")S.calib=0;
   if(!S.lastMobilityWeek)S.lastMobilityWeek="";
+  if(!S.todayWorkoutType){S.todayWorkoutType="";S.lastDate="";}
   checkDay();render();
 }
 function checkDay(){
   const t=today();
   if(S.lastDate!==t){
     const l=lvFromXp(S.xp),seed=parseInt(t.replace(/-/g,""))%97||17;
-    S.todayQuests=pickQ(l,seed,S.completedGates);S.completedToday=[];S.lastDate=t;
+    const res=pickQ(l,seed,S.completedGates,t);
+    S.todayQuests=res.items;S.todayWorkoutType=res.type.id;
+    S.completedToday=[];S.lastDate=t;
   }
   const wk=weekKey(t);
   if(S.lastMobilityWeek!==wk){
@@ -419,7 +450,7 @@ function updHdr(){
   const l=lvFromXp(S.xp),curBase=cumXp(l),step=xpStep(l),inLevel=S.xp-curBase;
   const maxed=l>=MAX_LEVEL;
   const pct=maxed?100:Math.min((inLevel/step)*100,100);
-  document.getElementById("hl").textContent=`Lv.${l}`;
+  document.getElementById("hl").textContent=l;
   document.getElementById("hx").textContent=S.xp;
   document.getElementById("hxt").textContent=maxed?"Max level reached":`${inLevel}/${step} XP → Lv.${l+1}`;
   document.getElementById("hbar").style.width=Math.round(pct)+"%";
@@ -440,8 +471,10 @@ function rLogShort(){
   if(!S.log||!S.log.length){el.innerHTML=`<div class="empty">Complete your first quest<br>to start your history!</div>`;return;}
   el.innerHTML=S.log.slice(0,8).map(e=>`<div class="lrow"><div><div class="lname">${e.q}</div><div class="ldate">${e.d}</div></div><div class="lxp">+${e.x} XP</div></div>`).join("");
 }
+const WORKOUT_LABELS={pull:"Pull day",push:"Push day",legs:"Legs day",full:"Full body day"};
 function rQuests(){
   document.getElementById("qdate").textContent=today();
+  document.getElementById("wtypebadge").textContent=WORKOUT_LABELS[S.todayWorkoutType]||"";
   const l=lvFromXp(S.xp);
   const gates=availableGates(l,S.completedGates);
   document.getElementById("glist").innerHTML=gates.map(g=>`
